@@ -1,0 +1,43 @@
+name: Main workflow
+
+on:
+  push:
+    branches:
+      - "**"
+
+#env:
+
+jobs:
+  ##################################################################################################
+  ############### CHECKS ###########################################################################
+  ##################################################################################################
+
+  run_checks:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        command:
+          [
+            "make check-end-of-file-fixer",
+            "make check-gitleaks",
+            "make check-prettier",
+            "make check-ruff",
+            "make check-trailing-whitespace",
+          ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python-env
+        with:
+          python-version: 3.10
+
+      - name: Run command
+        run: |
+          source .venv-checks/bin/activate
+          ${{ matrix.command }}

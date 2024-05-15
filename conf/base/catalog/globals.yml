@@ -1,0 +1,22 @@
+# Templated Catalog ####################################################################
+
+_datasets:
+  csv: "pandas.CSVDataset"
+  excel: "pandas.ExcelDataset"
+  parquet: "pandas.ParquetDataset"
+  pickle: "pickle.PickleDataset"
+  spark: "spark.SparkDataset"
+  text: "text.TextDataset"
+
+_base_path: ./data
+
+_folders:
+  dct: 00_dictionary
+  raw: 01_raw
+  int: 02_intermediate
+  prm: 03_primary
+  ftr: 04_feature
+  mip: 05_model_input
+  mdl: 06_models
+  mop: 07_model_output
+  rpt: 08_reporting

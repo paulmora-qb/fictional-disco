@@ -1,18 +1,10 @@
 [tool.kedro]
-package_name = "fictional_disco"
-project_name = "fictional_disco"
+package_name = "registry"
+project_name = "Fictional Disco"
 kedro_init_version = "0.19.3"
-tools = [ "Linting", "Testing", "Custom Logging", "Data Structure", "Kedro Viz",]
+tools = ['Linting', 'Testing', 'Custom Logging', 'Documentation', 'Data Structure']
 example_pipeline = "True"
 source_dir = "src"
-
-[tool.ruff]
-line-length = 88
-show-fixes = true
-select = [ "F", "W", "E", "I", "UP", "PL", "T201",]
-ignore = [ "E501",]
-
-[project.entry-points."kedro.hooks"]
 
 [tool.pytest.ini_options]
 addopts = """
