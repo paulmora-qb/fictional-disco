@@ -1,19 +1,5 @@
-_csv: &csv
-  type: "${_datasets.csv}"
-  file_format: csv
-  load_args:
-    sep: ","
-    header: True
-    inferSchema: True
-  save_args:
-    sep: ","
-    header: True
-    inferSchema: True
-  metadata:
-    layer: Primary
-
 # Dataset ##############################################################################
 
 sp500_data:
-  <<: *csv
+  type: "${_datasets.csv}"
   filepath: "${_base_path}/${_folders.raw}/sp500.csv"
