@@ -15,7 +15,10 @@ def create_pipeline() -> Pipeline:
     nodes = [
         node(
             func=load_prices,
-            inputs=["sp500_data"],
+            inputs={
+                "sp500_data": "sp500_data",
+                "data_loader_params": "params:data_loader",
+            },
             outputs="full_df_sp500_data",
             name="data_collection",
             tags=["data_collection"],
