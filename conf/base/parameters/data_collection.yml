@@ -1,6 +1,3 @@
 data_loader:
-  function: TIME_SERIES_DAILY
-  time_series_name_key: Time Series (Daily)
-  basic_download_link: https://www.alphavantage.co/query?
-  output_size: full
-  price_key: 3. low
+  period: 10y
+  price_column: Adj Close

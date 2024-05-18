@@ -1,10 +1,10 @@
 """Pipeline for data collection."""
 
 from kedro.pipeline import Pipeline, node, pipeline
-from data_collection.functions import load_prices
+from data_collection.functions import non_incremental_price_creation
 
 
-def create_pipeline() -> Pipeline:
+def create_non_incremental_pipeline() -> Pipeline:
     """Pipeline for data collection.
 
     Returns
@@ -14,15 +14,19 @@ def create_pipeline() -> Pipeline:
     """
     nodes = [
         node(
-            func=load_prices,
+            func=non_incremental_price_creation,
             inputs={
                 "sp500_data": "sp500_data",
                 "data_loader_params": "params:data_loader",
             },
-            outputs="full_df_sp500_data",
+            outputs="price_data",
             name="data_collection",
             tags=["data_collection"],
         )
     ]
 
     return pipeline(nodes)
+
+
+def create_incremental_pipeline() -> Pipeline:
+    pass

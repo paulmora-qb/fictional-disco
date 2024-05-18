@@ -1,6 +1,8 @@
 """Project pipelines."""
 
-from data_collection.pipelines import create_pipeline as data_collection
+from data_collection.pipelines import (
+    create_non_incremental_pipeline as non_incremental_data_collection,
+)
 from kedro.pipeline import Pipeline
 
 
@@ -12,4 +14,4 @@ def register_pipelines() -> dict[str, Pipeline]:
         A mapping from pipeline names to ``Pipeline`` objects.
 
     """
-    return {"data_collection": data_collection()}
+    return {"non_incremental_data_collection": non_incremental_data_collection()}

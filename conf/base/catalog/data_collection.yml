@@ -3,3 +3,7 @@
 sp500_data:
   type: "${_datasets.csv}"
   filepath: "${_base_path}/${_folders.raw}/sp500.csv"
+
+price_data:
+  type: "${_datasets.csv}"
+  filepath: "${_base_path}/${_folders.raw}/price_data.csv"
