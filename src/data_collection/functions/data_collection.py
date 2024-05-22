@@ -5,8 +5,6 @@ from tqdm import tqdm
 
 import yfinance as yf
 
-data = yf.download("AAPL", period="10y")
-
 
 def non_incremental_price_creation(
     sp500_data: pd.DataFrame, data_loader_params: dict[str, str]

@@ -1,9 +1,14 @@
+_csv: &csv
+  type: "${_datasets.csv}"
+  save_args:
+    index: True
+
 # Dataset ##############################################################################
 
 sp500_data:
-  type: "${_datasets.csv}"
-  filepath: "${_base_path}/${_folders.raw}/sp500.csv"
+  type: ${_datasets.csv}
+  filepath: ${_base_path}/${_folders.raw}/sp500.csv
 
 price_data:
-  type: "${_datasets.csv}"
-  filepath: "${_base_path}/${_folders.raw}/price_data.csv"
+  <<: *csv
+  filepath: ${_base_path}/${_folders.raw}/price_data.csv
