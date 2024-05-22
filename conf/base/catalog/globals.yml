@@ -7,6 +7,7 @@ _datasets:
   pickle: "pickle.PickleDataset"
   spark: "spark.SparkDataset"
   text: "text.TextDataset"
+  partitioned: partitions.PartitionedDataset
 
 _base_path: ./data
 

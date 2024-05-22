@@ -10,5 +10,11 @@ sp500_data:
   filepath: ${_base_path}/${_folders.raw}/sp500.csv
 
 price_data:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.raw}/price_data.csv
+  type: ${_datasets.partitioned}
+  path: ${_base_path}/${_folders.int}/
+  dataset:
+    type: "${_datasets.csv}"
+    load_args:
+      index: True
+    save_args:
+      index: true

@@ -13,7 +13,8 @@ def non_incremental_price_creation(
 
     Args:
     ----
-        sp500_data (pd.DataFrame):
+        sp500_data (pd.DataFrame): DataFrame containing the symbols of the S&P 500
+            companies.
         data_loader_params (dict[str, str]): _description_
 
     Returns:
@@ -21,34 +22,87 @@ def non_incremental_price_creation(
         pd.DataFrame: _description_
 
     """
+    relevant_columns = data_loader_params["relevant_columns"]
     list_symbols = list(sp500_data.loc[:, "Symbol"])
-    list_of_price_data = [
-        _create_price_dataframe(symbol=symbol, params=data_loader_params)
-        for symbol in tqdm(list_symbols)
-    ]
-    return pd.concat(list_of_price_data, axis=1)
+
+    data_dict = _download_all_stock_information(
+        list_symbols=list_symbols, data_loader_params=data_loader_params
+    )
+
+    return _create_dataframe_per_column(
+        data_dict=data_dict, relevant_columns=relevant_columns
+    )
 
 
-def _create_price_dataframe(
-    symbol: str,
-    params: dict[str, str],
-) -> pd.DataFrame:
-    """_summary_
+def _create_dataframe_per_column(
+    data_dict: dict[str, pd.DataFrame], relevant_columns: list[str]
+) -> dict[str, pd.DataFrame]:
+    """Gather the data from the different DataFrames into a single DataFrame per column.
+
+    This function takes the same column from each DataFrame in the dictionary and
+    concatenates them.
 
     Args:
     ----
-        symbol (str): _description_
-        params (dict[str, str]): _description_
+        data_dict (dict[str, pd.DataFrame]): Keys are the stock symbols and values are
+            the DataFrames with the stock information.
+        relevant_columns (list[str]): Column names from the DataFrames that we want to
+            concatenate.
 
     Returns:
     -------
-        pd.DataFrame: _description_
+        dict[str, pd.DataFrame]: Keys are the column names and values are the
+            concatenated DataFrames. In the concatenated DataFrames, the columns are
+            the stock symbols.
+
+    """
+    return {
+        col: pd.concat(
+            [df[[col]].rename(columns={col: name}) for name, df in data_dict.items()],
+            axis=1,
+        )
+        for col in relevant_columns
+    }
+
+
+def _download_all_stock_information(
+    list_symbols: list[str], data_loader_params: dict[str, str]
+) -> dict[str, pd.DataFrame]:
+    """Download stock information for all the symbols in the list.
+
+    Args:
+    ----
+        list_symbols (list[str]): List of stock symbols.
+        data_loader_params (dict[str, str]): Parameters for the data loader.
+
+    Returns:
+    -------
+        dict[str, pd.DataFrame]: Dictionary with the stock information for each symbol.
+
+    """
+    data_dict = {}
+    for symbol in tqdm(list_symbols):
+        data = _download_price_dataframe(symbol=symbol, params=data_loader_params)
+        if not data.empty:
+            data_dict[symbol] = data
+    return data_dict
+
+
+def _download_price_dataframe(
+    symbol: str,
+    params: dict[str, str],
+) -> pd.DataFrame:
+    """Download the price data for a given symbol and period.
+
+    Args:
+    ----
+        symbol (str): Stock symbol.
+        params (dict[str, str]): Parameters for the data loader.
+
+    Returns:
+    -------
+        pd.DataFrame: Stock information.
 
     """
     period = params["period"]
-    price_column = params["price_column"]
-
-    data = yf.download(symbol, period=period)
-    price_data = data.loc[:, price_column]
-    price_data.name = symbol
-    return price_data
+    return yf.download(symbol, period=period)

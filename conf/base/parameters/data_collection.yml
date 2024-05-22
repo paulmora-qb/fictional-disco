@@ -1,3 +1,9 @@
 data_loader:
   period: 10y
-  price_column: Adj Close
+  relevant_columns:
+    - Open
+    - High
+    - Low
+    - Close
+    - Adj Close
+    - Volume
