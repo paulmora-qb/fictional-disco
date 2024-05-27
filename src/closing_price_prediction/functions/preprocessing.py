@@ -70,7 +70,8 @@ def create_master_table(data_dict, relevant_columns):
 
     Args:
     ----
-        data_dict (dict[str, pd.DataFrame]): Dictionary with the stock information for each symbol.
+        data_dict (dict[str, pd.DataFrame]): Dictionary with the stock information for
+            each symbol.
         relevant_columns (list[str]): List of relevant columns.
 
     Returns:
