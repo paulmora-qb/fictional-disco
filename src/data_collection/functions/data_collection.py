@@ -8,18 +8,22 @@ import yfinance as yf
 
 def non_incremental_price_creation(
     sp500_data: pd.DataFrame, data_loader_params: dict[str, str]
-) -> pd.DataFrame:
+) -> dict[str, pd.DataFrame]:
     """Create a DataFrame with the price data for the S&P 500 companies.
 
     Args:
     ----
         sp500_data (pd.DataFrame): DataFrame containing the symbols of the S&P 500
             companies.
-        data_loader_params (dict[str, str]): _description_
+        data_loader_params (dict[str, str]): Parameters relevant for the data loading.
+            They contain information such as which columns should be retrieved and for
+            which time period.
 
     Returns:
     -------
-        pd.DataFrame: _description_
+        dict[str, pd.DataFrame]: Dictionary containing the retrieved columns for all S&P
+            500 companies. The keys are the column names and the values are the
+            DataFrames with the stock information.
 
     """
     relevant_columns = data_loader_params["relevant_columns"]

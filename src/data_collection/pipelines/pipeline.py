@@ -24,29 +24,7 @@ def create_non_incremental_pipeline() -> Pipeline:
             outputs="price_data",
             name="data_collection",
             tags=["data_collection"],
-        )
+        ),
     ]
 
     return pipeline(nodes)
-
-
-# def create_incremental_pipeline() -> Pipeline:
-#     """_summary_
-
-#     Returns:
-#         Pipeline: _description_
-#     """
-#     nodes = [
-#         node(
-#             func=incremental_price_creation,
-#             inputs={
-#                 "sp500_data": "price_data",
-#                 "data_loader_params": "params:data_loader",
-#             },
-#             outputs="price_data",
-#             name="data_collection",
-#             tags=["data_collection"],
-#         )
-#     ]
-
-#     return pipeline(nodes)

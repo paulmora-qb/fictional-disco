@@ -8,6 +8,7 @@ _datasets:
   spark: "spark.SparkDataset"
   text: "text.TextDataset"
   partitioned: partitions.PartitionedDataset
+  ibis: "ibis.TableDataset"
 
 _base_path: ./data
 
