@@ -9,12 +9,22 @@ _csv: &csv
 
 high_minus_low:
   <<: *csv
-  filepath: ${_base_path}/${_folders.prm}/high_minus_low
+  filepath: ${_base_path}/${_folders.ftr}/high_minus_low
 
 close_minus_open:
   <<: *csv
-  filepath: ${_base_path}/${_folders.prm}/close_minus_open
+  filepath: ${_base_path}/${_folders.ftr}/close_minus_open
 
 price_aggregation:
   <<: *csv
-  filepath: ${_base_path}/${_folders.prm}/price_aggregation
+  filepath: ${_base_path}/${_folders.ftr}/price_aggregation
+
+master_tables:
+  type: ${_datasets.partitioned}
+  path: ${_base_path}/${_folders.mip}/
+  dataset:
+    type: "${_datasets.csv}"
+    load_args:
+      index: True
+    save_args:
+      index: true
