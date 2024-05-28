@@ -2,6 +2,8 @@ _csv: &csv
   type: "${_datasets.csv}"
   save_args:
     index: True
+  load_args:
+    index_col: Date
 
 # Dataset ##############################################################################
 
@@ -18,3 +20,29 @@ price_data:
       index: True
     save_args:
       index: true
+
+# Outputs ##############################################################################
+
+adj_close:
+  <<: *csv
+  filepath: ${_base_path}/${_folders.int}/Adj Close
+
+close:
+  <<: *csv
+  filepath: ${_base_path}/${_folders.int}/Close
+
+high:
+  <<: *csv
+  filepath: ${_base_path}/${_folders.int}/High
+
+low:
+  <<: *csv
+  filepath: ${_base_path}/${_folders.int}/Low
+
+open:
+  <<: *csv
+  filepath: ${_base_path}/${_folders.int}/Open
+
+volume:
+  <<: *csv
+  filepath: ${_base_path}/${_folders.int}/Volume

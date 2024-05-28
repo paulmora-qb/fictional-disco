@@ -4,7 +4,7 @@ from kedro.pipeline import Pipeline, node, pipeline
 from closing_price_prediction.functions.preprocessing import (
     subtract_dataframes,
     create_auto_aggregation,
-    create_feature_shift,
+    create_master_table,
 )
 
 
@@ -29,6 +29,28 @@ def create_feature_pipeline() -> Pipeline:
             inputs={"df1": "close", "df2": "open"},
             outputs="close_minus_open",
             name="subtraction_close_minus_open",
+            tags=["feature_engineering"],
+        ),
+        node(
+            func=create_auto_aggregation,
+            inputs={
+                "stock_prices": "adj_close",
+                "aggregation_params": "params:closing_price_prediction.aggregation",
+            },
+            outputs="price_aggregation",
+            name="auto_aggregation",
+            tags=["feature_engineering"],
+        ),
+        node(
+            func=create_master_table,
+            inputs=[
+                "close",
+                "high_minus_low",
+                "close_minus_open",
+                "price_aggregation",
+            ],
+            outputs="master_table",
+            name="create_master_table",
             tags=["feature_engineering"],
         ),
     ]

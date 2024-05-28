@@ -1,0 +1,6 @@
+closing_price_prediction:
+  aggregation:
+    - aggregation_type: mean
+      aggregation_lengths: [7, 14, 21]
+    - aggregation_type: std
+      aggregation_lengths: [7]

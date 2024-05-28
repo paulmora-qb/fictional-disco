@@ -16,75 +16,73 @@ def subtract_dataframes(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: DataFrame resulting from the subtraction of df2 from df1.
 
     """
-    date_column = "Date"
-    df1 = df1.set_index(date_column)
-    df2 = df2.set_index(date_column)
-
     return df1 - df2
 
 
-def create_auto_aggregation(df, column_name, aggregation_period):
-    """Create a new column with the auto-aggregated data.
+def create_auto_aggregation(
+    stock_prices: pd.DataFrame, aggregation_params: dict[str, str]
+) -> pd.DataFrame:
+    """Create the aggregation columns.
 
     Args:
-    ----
-        df (pd.DataFrame): DataFrame with the data.
-        column_name (str): Name of the column to be auto-aggregated.
-        aggregation_period (int): Number of periods to aggregate.
+        stock_prices (pd.DataFrame): DataFrame with the stock prices.
+        aggregation_params (dict[str, str]): Dictionary with the aggregation parameters.
 
     Returns:
-    -------
-        pd.DataFrame: DataFrame with the new column.
-
+        pd.DataFrame: DataFrame with the date and the aggregation columns
     """
-    return df.assign(
-        **{
-            f"{column_name}_auto_aggregated_{aggregation_period}": df[column_name]
-            .rolling(aggregation_period)
-            .mean()
-        }
-    )
+    agg_data = pd.DataFrame(index=stock_prices.index)
+    for agg in aggregation_params:
+        for window in agg["aggregation_lengths"]:
+            agg_type = agg["aggregation_type"]
+            agg_data_temp = stock_prices.rolling(window=window).agg(agg_type)
+            agg_data_temp = agg_data_temp.rename(
+                columns={
+                    col: f"{col}_{agg_type}_{window}"
+                    for col in agg_data_temp.columns
+                    if col != "Date"
+                },
+            )
+            agg_data = pd.concat([agg_data, agg_data_temp], axis=1)
+
+    return agg_data
 
 
-def create_feature_shift(df, column_name, shift_period):
-    """Create a new column with the shifted data.
+def _create_feature_shift(
+    feature_table: pd.DataFrame, shift_period: int
+) -> pd.DataFrame:
+    """Shift the feature tables.
 
     Args:
-    ----
-        df (pd.DataFrame): DataFrame with the data.
-        column_name (str): Name of the column to be shifted.
-        shift_period (int): Number of periods to shift.
+        feature_table (pd.DataFrame): Tables that need to be shifted.
+        shift_period (int): Number of periods to shift the tables.
 
     Returns:
-    -------
-        pd.DataFrame: DataFrame with the new column.
-
+        pd.DataFrame: Shifted tables.
     """
-    return df.assign(
-        **{f"{column_name}_shifted_{shift_period}": df[column_name].shift(shift_period)}
-    )
+    feature_table = feature_table.shift(shift_period)
+    feature_table.columns = [
+        f"{col}_shift_{shift_period}" for col in feature_table.columns
+    ]
+    return feature_table
 
 
-def create_master_table(data_dict, relevant_columns):
-    """Create a master table with the relevant columns.
+def create_master_table(
+    closing_prices: pd.DataFrame, *feature_tables: list[pd.DataFrame]
+) -> pd.DataFrame:
+    """Create the master table.
+
+    The target table is the closing prices. The feature tables are shifted by one day.
 
     Args:
-    ----
-        data_dict (dict[str, pd.DataFrame]): Dictionary with the stock information for
-            each symbol.
-        relevant_columns (list[str]): List of relevant columns.
+        closing_prices (pd.DataFrame): DataFrame with the closing prices.
 
     Returns:
-    -------
-        dict[str, pd.DataFrame]: Keys are the column names and values are the
-            concatenated DataFrames. In the concatenated DataFrames, the columns are
-            the stock symbols.
-
+        pd.DataFrame: DataFrame with the closing prices and the shifted feature tables.
     """
-    return {
-        col: pd.concat(
-            [df[[col]].rename(columns={col: name}) for name, df in data_dict.items()],
-            axis=1,
-        )
-        for col in relevant_columns
-    }
+
+    shifted_feature_tables = [
+        _create_feature_shift(feature_table, 1) for feature_table in feature_tables
+    ]
+
+    return pd.concat([closing_prices] + shifted_feature_tables, axis=1)
