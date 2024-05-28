@@ -52,7 +52,6 @@ def create_auto_aggregation(
                 },
             )
             agg_data = pd.concat([agg_data, agg_data_temp], axis=1)
-
     return agg_data
 
 
@@ -92,12 +91,10 @@ def _create_common_columns_dataframe(df: pd.DataFrame) -> dict[str, pd.DataFrame
 
     """
     df_dict = {}
-
     # Iterate over columns
     for col in df.columns:
         # Extract common part of column name
         common_part = col.split("_")[0]
-
         # Check if common part already exists in dictionary
         if common_part in df_dict:
             # Append column to existing DataFrame
@@ -105,7 +102,6 @@ def _create_common_columns_dataframe(df: pd.DataFrame) -> dict[str, pd.DataFrame
         else:
             # Create new DataFrame with the column
             df_dict[common_part] = df[[col]].copy()
-
     return df_dict
 
 
