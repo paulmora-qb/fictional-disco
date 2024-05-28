@@ -4,7 +4,7 @@ from data_collection.pipelines import (
     create_non_incremental_pipeline as non_incremental_data_collection,
 )
 from closing_price_prediction.pipelines import (
-    create_feature_pipeline as ml_technique_pipeline,
+    create_pipeline as ml_technique_pipeline,
 )
 from kedro.pipeline import Pipeline
 
@@ -19,5 +19,7 @@ def register_pipelines() -> dict[str, Pipeline]:
     """
     return {
         "non_incremental_data_collection": non_incremental_data_collection(),
-        "ml_technique_pipeline": ml_technique_pipeline(),
+        "ml_technique_pipeline": ml_technique_pipeline(
+            top_level_namespace="closing_price_prediction", variants=["MMMM"]
+        ),
     }

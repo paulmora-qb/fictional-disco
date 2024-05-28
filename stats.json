@@ -1,1 +1,10 @@
-{"adj_close": {"rows": 2517, "columns": 442, "file_size": 19699760}, "price_aggregation": {"rows": 2517, "columns": 1768, "file_size": 79618996}, "close": {"rows": 2517, "columns": 442, "file_size": 19253488}, "open": {"rows": 2517, "columns": 442, "file_size": 18848184}, "close_minus_open": {"rows": 2517, "columns": 442, "file_size": 20356899}, "high": {"rows": 2517, "columns": 442, "file_size": 19120838}, "low": {"rows": 2517, "columns": 442, "file_size": 19158057}, "high_minus_low": {"rows": 2517, "columns": 442, "file_size": 19581255}}
+{
+  "adj_close": { "rows": 2517, "columns": 442, "file_size": 19699760 },
+  "price_aggregation": { "rows": 2517, "columns": 1768, "file_size": 79618996 },
+  "close": { "rows": 2517, "columns": 442, "file_size": 19253488 },
+  "open": { "rows": 2517, "columns": 442, "file_size": 18848184 },
+  "close_minus_open": { "rows": 2517, "columns": 442, "file_size": 20356899 },
+  "high": { "rows": 2517, "columns": 442, "file_size": 19120838 },
+  "low": { "rows": 2517, "columns": 442, "file_size": 19158057 },
+  "high_minus_low": { "rows": 2517, "columns": 442, "file_size": 19581255 }
+}
