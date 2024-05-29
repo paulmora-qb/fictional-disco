@@ -9,12 +9,18 @@ from closing_price_prediction.functions.preprocessing import (
 from closing_price_prediction.functions.modeling import train_model, inference, post_eda
 
 
-def _create_feature_pipeline() -> Pipeline:
+def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
     """Pipeline for machine learning techniques features.
+
+    Parameters
+    ----------
+    top_level_namespace : str
+        The namespace for the pipeline.
 
     Returns
     -------
-        Pipeline: The ML feature engineering pipeline.
+    Pipeline
+        The ML feature engineering pipeline.
 
     """
     nodes = [
@@ -23,7 +29,7 @@ def _create_feature_pipeline() -> Pipeline:
             inputs={
                 "df1": "high",
                 "df2": "low",
-                "name": "params:closing_price_prediction.subtraction.high_minus_low",
+                "name": "params:subtraction.high_minus_low",
             },
             outputs="high_minus_low",
             name="subtraction_high_minus_low",
@@ -34,7 +40,7 @@ def _create_feature_pipeline() -> Pipeline:
             inputs={
                 "df1": "close",
                 "df2": "open",
-                "name": "params:closing_price_prediction.subtraction.close_minus_open",
+                "name": "params:subtraction.close_minus_open",
             },
             outputs="close_minus_open",
             name="subtraction_close_minus_open",
@@ -44,7 +50,7 @@ def _create_feature_pipeline() -> Pipeline:
             func=create_auto_aggregation,
             inputs={
                 "stock_prices": "adj_close",
-                "aggregation_params": "params:closing_price_prediction.aggregation",
+                "aggregation_params": "params:aggregation",
             },
             outputs="price_aggregation",
             name="auto_aggregation",
@@ -64,28 +70,52 @@ def _create_feature_pipeline() -> Pipeline:
         ),
     ]
 
-    return pipeline(nodes)
+    return pipeline(
+        nodes,
+        inputs={"high", "low", "close", "open", "adj_close"},
+        namespace=top_level_namespace,
+    )
 
 
-# def _create_modeling_pipeline() -> Pipeline:
-#     """Pipeline for machine learning techniques modeling.
+def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline:
+    """Pipeline for machine learning techniques modeling.
 
-#     Returns
-#     -------
-#         Pipeline: The ML modeling pipeline.
+    Parameters
+    ----------
+    top_level_namespace : str
+        The namespace for the pipeline.
 
-#     """
-#     nodes = [
-#         node(
-#             func=train_model,
-#             inputs={}
-#             )
-#     ]
+    variant : str
+        The variant of the pipeline.
 
-#     return pipeline(nodes)
+    Returns
+    -------
+    Pipeline
+        The ML modeling pipeline.
+
+    """
+    nodes = [
+        node(
+            func=train_model,
+            inputs={
+                "stock_price_table": "stock_price_table",
+                "train_params": "params:train",
+            },
+            outputs=["experiment", "tuned_model"],
+            name="train_model",
+            tags=["modeling"],
+        )
+    ]
+
+    namespace = f"{top_level_namespace}.{variant}"
+    return pipeline(
+        nodes,
+        parameters={"params:train": f"params:{top_level_namespace}.train"},
+        namespace=namespace,
+    )
 
 
-def create_pipeline() -> Pipeline:
+def create_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:
     """Create the pipeline for the closing price prediction.
 
     Args:
@@ -98,4 +128,9 @@ def create_pipeline() -> Pipeline:
         Pipeline: The closing price prediction pipeline.
 
     """
-    return _create_feature_pipeline() + _create_modeling_pipeline()
+    return _create_feature_pipeline(top_level_namespace=top_level_namespace) + sum(
+        _create_modeling_pipeline(
+            top_level_namespace=top_level_namespace, variant=variant
+        )
+        for variant in variants
+    )
