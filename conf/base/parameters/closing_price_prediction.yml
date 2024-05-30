@@ -29,3 +29,5 @@ closing_price_prediction:
       search_library: optuna
       choose_better: True
       optimize: MAE
+    plotting_params:
+      fig_size: [10, 6]

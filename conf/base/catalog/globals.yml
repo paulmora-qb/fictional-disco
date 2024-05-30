@@ -8,7 +8,7 @@ _datasets:
   spark: "spark.SparkDataset"
   text: "text.TextDataset"
   partitioned: partitions.PartitionedDataset
-  ibis: "ibis.TableDataset"
+  matplotlib: "matplotlib.MatplotlibWriter"
 
 _base_path: ./data
 

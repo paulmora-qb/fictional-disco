@@ -11,6 +11,7 @@ from closing_price_prediction.functions.modeling import (
     train_model,
     inference,
 )
+from closing_price_prediction.functions.plotting import post_eda
 
 
 def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
@@ -125,10 +126,19 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
                 "stock_price_table_split": "stock_price_table_split",
                 "experiment": "experiment",
                 "model": "finalized_model",
-                "modeling_params": "params:modeling_params",
             },
             outputs="predictions",
             name="inference",
+            tags=["modeling"],
+        ),
+        node(
+            func=post_eda,
+            inputs={
+                "predictions": "predictions",
+                "modeling_params": "params:modeling_params",
+            },
+            outputs="line_plot",
+            name="post_eda",
             tags=["modeling"],
         ),
     ]

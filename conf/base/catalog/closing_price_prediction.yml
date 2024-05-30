@@ -34,3 +34,11 @@ _csv: &csv
 "{namespace}.{variant}.stock_price_table":
   <<: *csv
   filepath: ${_base_path}/${_folders.mip}/{namespace}/{variant}
+
+# Model Output #########################################################################
+
+"{namespace}.{variant}.line_plot":
+  type: "${_datasets.matplotlib}"
+  filepath: data/08_reporting/{namespace}/{variant}.png
+  save_args:
+    format: png
