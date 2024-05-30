@@ -99,7 +99,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
             func=train_model,
             inputs={
                 "stock_price_table": "stock_price_table",
-                "train_params": "params:train",
+                "train_params": "params:train_params",
             },
             outputs=["experiment", "tuned_model"],
             name="train_model",
@@ -110,7 +110,9 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
     namespace = f"{top_level_namespace}.{variant}"
     return pipeline(
         nodes,
-        parameters={"params:train": f"params:{top_level_namespace}.train"},
+        parameters={
+            "params:train_params": f"params:{top_level_namespace}.train_params"
+        },
         namespace=namespace,
     )
 
