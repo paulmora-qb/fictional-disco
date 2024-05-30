@@ -21,7 +21,7 @@ def create_non_incremental_pipeline() -> Pipeline:
                 "sp500_data": "sp500_data",
                 "data_loader_params": "params:data_loader",
             },
-            outputs="price_data",
+            outputs=["price_data", "valid_stock_symbols"],
             name="data_collection",
             tags=["data_collection"],
         ),

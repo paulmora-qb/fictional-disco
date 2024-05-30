@@ -29,12 +29,15 @@ def non_incremental_price_creation(
     relevant_columns = data_loader_params["relevant_columns"]
     list_symbols = list(sp500_data.loc[:, "Symbol"])
 
-    data_dict = _download_all_stock_information(
+    data_dict, valid_stock_symbols = _download_all_stock_information(
         list_symbols=list_symbols, data_loader_params=data_loader_params
     )
 
-    return _create_dataframe_per_column(
-        data_dict=data_dict, relevant_columns=relevant_columns
+    return (
+        _create_dataframe_per_column(
+            data_dict=data_dict, relevant_columns=relevant_columns
+        ),
+        valid_stock_symbols,
     )
 
 
@@ -85,11 +88,13 @@ def _download_all_stock_information(
 
     """
     data_dict = {}
+    valid_stock_symbols = []
     for symbol in tqdm(list_symbols):
         data = _download_price_dataframe(symbol=symbol, params=data_loader_params)
         if not data.empty:
             data_dict[symbol] = data
-    return data_dict
+            valid_stock_symbols.append(symbol)
+    return data_dict, valid_stock_symbols
 
 
 def _download_price_dataframe(

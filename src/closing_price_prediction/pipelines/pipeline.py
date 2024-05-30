@@ -10,7 +10,6 @@ from closing_price_prediction.functions.modeling import (
     train_test_split,
     train_model,
     inference,
-    post_eda,
 )
 
 
@@ -116,14 +115,22 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
                 "stock_price_table_split": "stock_price_table_split",
                 "modeling_params": "params:modeling_params",
             },
-            outputs=["experiment", "tuned_model"],
+            outputs=["experiment", "finalized_model"],
             name="train_model",
             tags=["modeling"],
         ),
-        # node(
-        #     func=inference,
-        #     inputs={"experiment": "experiment", "tuned_model": "tuned_model"},
-        # ),
+        node(
+            func=inference,
+            inputs={
+                "stock_price_table_split": "stock_price_table_split",
+                "experiment": "experiment",
+                "model": "finalized_model",
+                "modeling_params": "params:modeling_params",
+            },
+            outputs="predictions",
+            name="inference",
+            tags=["modeling"],
+        ),
     ]
 
     namespace = f"{top_level_namespace}.{variant}"

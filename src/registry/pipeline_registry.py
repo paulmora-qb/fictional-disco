@@ -27,6 +27,6 @@ def register_pipelines() -> dict[str, Pipeline]:
         "non_incremental_data_collection": non_incremental_data_collection(),
         "ml_technique_pipeline": ml_technique_pipeline(
             top_level_namespace="closing_price_prediction",
-            variants=DYNAMIC_PIPELINES_MAPPING["stock_symbols"],
+            variants=["MMM"],
         ),
     }

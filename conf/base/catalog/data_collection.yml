@@ -21,6 +21,10 @@ price_data:
     save_args:
       index: true
 
+valid_stock_symbols:
+  type: ${_datasets.pickle}
+  filepath: ${_base_path}/${_folders.int}/valid_stock_symbols.pkl
+
 # Outputs ##############################################################################
 
 adj_close:

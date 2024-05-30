@@ -1,8 +1,10 @@
 """Modeling for closing price prediction."""
 
-from typing import Any
+from typing import Any, TypeVar
 import pandas as pd
 from pycaret.regression import RegressionExperiment
+
+T = TypeVar("T")
 
 
 def train_model(
@@ -33,7 +35,7 @@ def train_model(
 
     train_stock_price_table = _filter_train_test_data(
         stock_price_table=stock_price_table_split,
-        trian_test_split_params=modeling_params["train_test_split"],
+        train_test_split_params=modeling_params["train_test_split"],
         filter_value="TRAIN",
     )
 
@@ -45,15 +47,34 @@ def train_model(
 
     base_model = experiment.compare_models(**modeling_params["train_params"])
     tuned_model = experiment.tune_model(base_model, **modeling_params["tuned_params"])
-    return experiment.finalize_model(tuned_model)
+    return experiment, experiment.finalize_model(tuned_model)
 
 
-def inference():
-    pass
+def inference(
+    stock_price_table_split: pd.DataFrame,
+    experiment: RegressionExperiment,
+    model: T,
+    modeling_params: dict[str, str],
+) -> pd.DataFrame:
+    """Makes predictions using the trained model.
 
+    Args:
+        stock_price_table_split (pd.DataFrame): Dataframe containing the stock price
+            table, which also contains a column which indicates what should be train
+            and what is test.
+        experiment (RegressionExperiment): The experiment object.
+        model (T): The trained model.
+        modeling_params (dict[str, str]): Parameters for the modeling.
 
-def post_eda():
-    pass
+    Returns:
+        pd.DataFrame: The predictions made by the model.
+    """
+    test_stock_price_table = _filter_train_test_data(
+        stock_price_table=stock_price_table_split,
+        train_test_split_params=modeling_params["train_test_split"],
+        filter_value="TRAIN",
+    )
+    return experiment.predict_model(model, data=test_stock_price_table)
 
 
 def train_test_split(
@@ -72,8 +93,9 @@ def train_test_split(
         pd.DataFrame: The stock price table with a 'train_test' column indicating the
             split.
     """
-    time_window = modeling_params["time_window"]
-    train_test_column = modeling_params["train_test_column"]
+    train_test_params = modeling_params["train_test_split"]
+    time_window = train_test_params["time_window"]
+    train_test_column = train_test_params["train_test_column"]
     stock_price_table.index = pd.to_datetime(stock_price_table.index)
 
     # Parse the time window to get the timedelta
@@ -88,7 +110,8 @@ def train_test_split(
         timedelta = pd.DateOffset(days=n_days)
     else:
         raise ValueError(
-            "Unsupported time window format. Use 'y' for years, 'm' for months, or 'd' for days."
+            "Unsupported time window format. Use 'y' for years, 'm' for months, or 'd'"
+            "for days."
         )
 
     # Find the latest date in the index
@@ -170,4 +193,4 @@ def _filter_train_test_data(
         pd.DataFrame: The filtered stock price table.
     """
     train_test_column = train_test_split_params["train_test_column"]
-    return stock_price_table[stock_price_table[train_test_column == filter_value]]
+    return stock_price_table.query(f"{train_test_column} == '{filter_value}'")
