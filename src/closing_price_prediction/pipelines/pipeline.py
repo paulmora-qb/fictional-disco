@@ -6,7 +6,12 @@ from closing_price_prediction.functions.preprocessing import (
     create_auto_aggregation,
     create_master_dict,
 )
-from closing_price_prediction.functions.modeling import train_model, inference, post_eda
+from closing_price_prediction.functions.modeling import (
+    train_test_split,
+    train_model,
+    inference,
+    post_eda,
+)
 
 
 def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
@@ -96,24 +101,36 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
     """
     nodes = [
         node(
-            func=train_model,
+            func=train_test_split,
             inputs={
                 "stock_price_table": "stock_price_table",
-                "train_params": "params:train_params",
-                "tuned_params": "params:tuned_params",
+                "modeling_params": "params:modeling_params",
+            },
+            outputs="stock_price_table_split",
+            name="train_test_split",
+            tags=["modeling"],
+        ),
+        node(
+            func=train_model,
+            inputs={
+                "stock_price_table_split": "stock_price_table_split",
+                "modeling_params": "params:modeling_params",
             },
             outputs=["experiment", "tuned_model"],
             name="train_model",
             tags=["modeling"],
-        )
+        ),
+        # node(
+        #     func=inference,
+        #     inputs={"experiment": "experiment", "tuned_model": "tuned_model"},
+        # ),
     ]
 
     namespace = f"{top_level_namespace}.{variant}"
     return pipeline(
         nodes,
         parameters={
-            "params:train_params": f"params:{top_level_namespace}.train_params",
-            "params:tuned_params": f"params:{top_level_namespace}.tuned_params",
+            "params:modeling_params": f"params:{top_level_namespace}.modeling_params",
         },
         namespace=namespace,
     )
