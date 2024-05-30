@@ -7,6 +7,7 @@ from pycaret.regression import RegressionExperiment
 def train_model(
     stock_price_table: pd.DataFrame,
     train_params: dict[str, str],
+    tuned_params: dict[str, str],
 ):
     target_variable_name = _extract_target_variable_name(stock_price_table.columns)
 
@@ -16,7 +17,8 @@ def train_model(
         train_params=train_params,
     )
 
-    experiment.compare_models()
+    base_model = experiment.compare_models()
+    return experiment.tune_model(base_model, **tuned_params)
 
 
 def inference():

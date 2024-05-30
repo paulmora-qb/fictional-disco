@@ -16,3 +16,8 @@ closing_price_prediction:
     transformation: True
     transform_target: True
     session_id: 123
+
+  tuned_params:
+    n_iter: 10
+    search_library: optuna
+    choose_better: True
