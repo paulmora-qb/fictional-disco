@@ -2,13 +2,14 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from closing_price_prediction.functions.modeling import (
+from ml_technique_stock_price.functions.modeling import (
     inference,
     train_model,
-    train_test_split,
 )
-from closing_price_prediction.functions.plotting import post_eda
-from closing_price_prediction.functions.preprocessing import (
+from common.train_test_split import train_test_split
+
+from ml_technique_stock_price.functions.plotting import post_eda
+from ml_technique_stock_price.functions.preprocessing import (
     create_auto_aggregation,
     create_master_dict,
     subtract_dataframes,

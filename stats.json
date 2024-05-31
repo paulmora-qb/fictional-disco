@@ -1,1 +1,67 @@
-{"closing_price_prediction.ABBV.stock_price_table": {"rows": 2496, "columns": 7}, "closing_price_prediction.ABBV.stock_price_table_split": {"rows": 2496, "columns": 8}, "closing_price_prediction.ABT.stock_price_table": {"rows": 2496, "columns": 7}, "closing_price_prediction.ABT.stock_price_table_split": {"rows": 2496, "columns": 8}, "closing_price_prediction.ACN.stock_price_table": {"rows": 2496, "columns": 7}, "closing_price_prediction.ACN.stock_price_table_split": {"rows": 2496, "columns": 8}, "closing_price_prediction.AOS.stock_price_table": {"rows": 2496, "columns": 7}, "closing_price_prediction.AOS.stock_price_table_split": {"rows": 2496, "columns": 8}, "closing_price_prediction.MMM.stock_price_table": {"rows": 2496, "columns": 7}, "closing_price_prediction.MMM.stock_price_table_split": {"rows": 2496, "columns": 8}, "closing_price_prediction.ABBV.predictions": {"rows": 2496, "columns": 9}, "closing_price_prediction.ABBV.prediction_performance": {"rows": 1, "columns": 7}, "closing_price_prediction.ABT.predictions": {"rows": 2496, "columns": 9}, "closing_price_prediction.ABT.prediction_performance": {"rows": 1, "columns": 7}, "closing_price_prediction.ACN.predictions": {"rows": 2496, "columns": 9}, "closing_price_prediction.ACN.prediction_performance": {"rows": 1, "columns": 7}, "closing_price_prediction.AOS.predictions": {"rows": 2496, "columns": 9}, "closing_price_prediction.AOS.prediction_performance": {"rows": 1, "columns": 7}, "closing_price_prediction.MMM.predictions": {"rows": 2496, "columns": 9}, "closing_price_prediction.MMM.prediction_performance": {"rows": 1, "columns": 7}}
+{
+  "closing_price_prediction.ABBV.stock_price_table": {
+    "rows": 2496,
+    "columns": 7
+  },
+  "closing_price_prediction.ABBV.stock_price_table_split": {
+    "rows": 2496,
+    "columns": 8
+  },
+  "closing_price_prediction.ABT.stock_price_table": {
+    "rows": 2496,
+    "columns": 7
+  },
+  "closing_price_prediction.ABT.stock_price_table_split": {
+    "rows": 2496,
+    "columns": 8
+  },
+  "closing_price_prediction.ACN.stock_price_table": {
+    "rows": 2496,
+    "columns": 7
+  },
+  "closing_price_prediction.ACN.stock_price_table_split": {
+    "rows": 2496,
+    "columns": 8
+  },
+  "closing_price_prediction.AOS.stock_price_table": {
+    "rows": 2496,
+    "columns": 7
+  },
+  "closing_price_prediction.AOS.stock_price_table_split": {
+    "rows": 2496,
+    "columns": 8
+  },
+  "closing_price_prediction.MMM.stock_price_table": {
+    "rows": 2496,
+    "columns": 7
+  },
+  "closing_price_prediction.MMM.stock_price_table_split": {
+    "rows": 2496,
+    "columns": 8
+  },
+  "closing_price_prediction.ABBV.predictions": { "rows": 2496, "columns": 9 },
+  "closing_price_prediction.ABBV.prediction_performance": {
+    "rows": 1,
+    "columns": 7
+  },
+  "closing_price_prediction.ABT.predictions": { "rows": 2496, "columns": 9 },
+  "closing_price_prediction.ABT.prediction_performance": {
+    "rows": 1,
+    "columns": 7
+  },
+  "closing_price_prediction.ACN.predictions": { "rows": 2496, "columns": 9 },
+  "closing_price_prediction.ACN.prediction_performance": {
+    "rows": 1,
+    "columns": 7
+  },
+  "closing_price_prediction.AOS.predictions": { "rows": 2496, "columns": 9 },
+  "closing_price_prediction.AOS.prediction_performance": {
+    "rows": 1,
+    "columns": 7
+  },
+  "closing_price_prediction.MMM.predictions": { "rows": 2496, "columns": 9 },
+  "closing_price_prediction.MMM.prediction_performance": {
+    "rows": 1,
+    "columns": 7
+  }
+}

@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Patch
 
-from closing_price_prediction.functions.modeling import \
-    _extract_target_variable_name
+from ml_technique_stock_price.functions.modeling import _extract_target_variable_name
 
 
 def post_eda(
