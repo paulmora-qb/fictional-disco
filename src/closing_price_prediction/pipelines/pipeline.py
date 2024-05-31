@@ -1,17 +1,13 @@
 """Pipeline for price prediction."""
 
 from kedro.pipeline import Pipeline, node, pipeline
-from closing_price_prediction.functions.preprocessing import (
-    subtract_dataframes,
-    create_auto_aggregation,
-    create_master_dict,
-)
-from closing_price_prediction.functions.modeling import (
-    train_test_split,
-    train_model,
-    inference,
-)
+
+from closing_price_prediction.functions.modeling import (inference,
+                                                         train_model,
+                                                         train_test_split)
 from closing_price_prediction.functions.plotting import post_eda
+from closing_price_prediction.functions.preprocessing import (
+    create_auto_aggregation, create_master_dict, subtract_dataframes)
 
 
 def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:

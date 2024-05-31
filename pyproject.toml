@@ -56,6 +56,7 @@ select = [
     "C", # flake8-comprehensions
     "D", # pydocstyle
     "E", # pycodestyle errors
+    "I", # isort
     "FLY", # flynt
     "G", # flake8-logging-format
     "N", # pep8-naming

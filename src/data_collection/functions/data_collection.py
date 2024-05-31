@@ -1,9 +1,8 @@
 """Functions for data collection."""
 
 import pandas as pd
-from tqdm import tqdm
-
 import yfinance as yf
+from tqdm import tqdm
 
 
 def non_incremental_price_creation(

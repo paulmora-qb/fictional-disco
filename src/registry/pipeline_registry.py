@@ -1,13 +1,13 @@
 """Project pipelines."""
 
-from data_collection.pipelines import (
-    create_non_incremental_pipeline as non_incremental_data_collection,
-)
-from closing_price_prediction.pipelines import (
-    create_pipeline as ml_technique_pipeline,
-)
-from kedro.pipeline import Pipeline
 import pickle
+
+from kedro.pipeline import Pipeline
+
+from closing_price_prediction.pipelines import \
+    create_pipeline as ml_technique_pipeline
+from data_collection.pipelines import \
+    create_non_incremental_pipeline as non_incremental_data_collection
 
 with open("data/01_raw/list_stock_symbols.pkl", "rb") as f:
     list_stock_symbols = pickle.load(f)

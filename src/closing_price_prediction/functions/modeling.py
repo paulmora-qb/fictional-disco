@@ -1,9 +1,9 @@
 """Modeling for closing price prediction."""
 
 from typing import Any, TypeVar
+
 import pandas as pd
-from pycaret.regression import RegressionExperiment, pull
-import matplotlib.pyplot as plt
+from pycaret.regression import RegressionExperiment
 
 T = TypeVar("T")
 

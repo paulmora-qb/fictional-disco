@@ -1,9 +1,8 @@
 """Pipeline for data collection."""
 
 from kedro.pipeline import Pipeline, node, pipeline
-from data_collection.functions import (
-    non_incremental_price_creation,
-)
+
+from data_collection.functions import non_incremental_price_creation
 
 
 def create_non_incremental_pipeline() -> Pipeline:
