@@ -69,7 +69,7 @@ def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
                 "close_minus_open",
                 "price_aggregation",
             ],
-            outputs="master_tables",
+            outputs="stock_price_table",
             name="create_master_table",
             tags=["feature_engineering"],
         ),

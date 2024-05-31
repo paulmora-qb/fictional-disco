@@ -11,14 +11,18 @@ def post_eda(
     predictions: pd.DataFrame,
     modeling_params: dict[str, Any],
 ) -> plt.Figure:
-    """_summary_
+    """Plot a line plot of the actual and predicted values.
 
     Args:
-        predictions (pd.DataFrame): _description_
-        modeling_params (dict[str, Any]): _description_
+    ----
+        predictions (pd.DataFrame): DataFrame containing the actual and predicted
+            values.
+        modeling_params (dict[str, Any]): Parameters for the modeling.
 
     Returns:
-        plt.Figure: _description_
+    -------
+        plt.Figure: The line plot.
+
     """
     # Extract necessary parameters from modeling_params
     target_column_name = _extract_target_variable_name(predictions.columns)

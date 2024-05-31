@@ -15,6 +15,7 @@ def train_model(
     """Trains a model for closing price prediction.
 
     Args:
+    ----
         stock_price_table_split (pd.DataFrame): Dataframe containing the stock price
             table, which also contains a column which indicates what should be train
             and what is test.
@@ -28,7 +29,9 @@ def train_model(
             `train_params` (dict[str, str]): Parameters for training the model.
 
     Returns:
+    -------
         RegressionExperiment, T: The experiment object and the trained model.
+
     """
     target_variable_name = _extract_target_variable_name(
         stock_price_table_split.columns
@@ -41,7 +44,7 @@ def train_model(
     )
 
     experiment = _experiment_setup(
-        data=train_stock_price_table,
+        stock_price_data=train_stock_price_table,
         target_variable_name=target_variable_name,
         setup_params=modeling_params["setup_params"],
     )
@@ -57,9 +60,10 @@ def inference(
     model: T,
     modeling_params: dict[str, Any],
 ) -> pd.DataFrame:
-    """Makes predictions using the trained model.
+    """Make predictions using the trained model.
 
     Args:
+    ----
         stock_price_table_split (pd.DataFrame): Dataframe containing the stock price
             table, which also contains a column which indicates what should be train
             and what is test.
@@ -68,7 +72,9 @@ def inference(
         modeling_params (dict[str, Any]): Parameters for the modeling.
 
     Returns:
+    -------
         pd.DataFrame: The predictions made by the model.
+
     """
     test_data = _filter_train_test_data(
         stock_price_table=stock_price_table_split,
@@ -85,18 +91,21 @@ def inference(
 def train_test_split(
     stock_price_table: pd.DataFrame, modeling_params: dict[str, Any]
 ) -> pd.DataFrame:
-    """Splits the stock price table into training and testing sets.
+    """Split the stock price table into training and testing sets.
 
     This function splits the stock price table into training and testing sets based on
         the time window specified in the modeling parameters.
 
     Args:
+    ----
         stock_price_table (pd.DataFrame): The stock price table.
         modeling_params (dict[str, Any]): The parameters for the train-test split.
 
     Returns:
+    -------
         pd.DataFrame: The stock price table with a 'train_test' column indicating the
             split.
+
     """
     train_test_params = modeling_params["train_test_split"]
     time_window = train_test_params["time_window"]
@@ -134,39 +143,45 @@ def train_test_split(
 
 
 def _experiment_setup(
-    data: pd.DataFrame, target_variable_name: str, setup_params: dict[str, str]
+    stock_price_data: pd.DataFrame,
+    target_variable_name: str,
+    setup_params: dict[str, str],
 ) -> RegressionExperiment:
-    """Sets up a regression experiment.
+    """Set up the experiment for closing price prediction.
 
-    This function initializes a RegressionExperiment object and configures it with the
-        provided data and target variable.
-
-    Parameters:
-        data (pd.DataFrame): The input data for the experiment.
+    Args:
+    ----
+        stock_price_data (pd.DataFrame): Stock price data for the experiment.
         target_variable_name (str): The name of the target variable.
-        setup_params (dict[str, str]): Additional parameters for training.
+        setup_params (dict[str, str]): Parameters for setting up the experiment.
 
     Returns:
-        RegressionExperiment: The configured RegressionExperiment object.
+    -------
+        RegressionExperiment: The experiment object.
+
     """
     regression_experiment = RegressionExperiment()
     return regression_experiment.setup(
-        data=data, target=target_variable_name, **setup_params
+        data=stock_price_data, target=target_variable_name, **setup_params
     )
 
 
 def _extract_target_variable_name(column_names: list[str]) -> str:
-    """Extracts the target variable name from a list of column names.
+    """Extract the target variable name from a list of column names.
 
     Args:
+    ----
         column_names (list[str]): A list of column names.
 
     Returns:
+    -------
         str: The name of the target variable.
 
     Raises:
+    ------
         ValueError: If multiple target variables are found without an underscore.
         ValueError: If no target variable is found without an underscore.
+
     """
     target_variable = None
     for name in column_names:
@@ -184,9 +199,10 @@ def _filter_train_test_data(
     train_test_split_params: dict[str, str],
     filter_value: str,
 ) -> pd.DataFrame:
-    """Filters the training data based on the train-test split parameters.
+    """Filter the training data based on the train-test split parameters.
 
     Args:
+    ----
         stock_price_table (pd.DataFrame): The stock price table.
         train_test_split_params (dict[str, str]): The parameters for the train-test
             split. Contains the name of the column indicating the split.
@@ -195,7 +211,9 @@ def _filter_train_test_data(
             filtered stock price table.
 
     Returns:
+    -------
         pd.DataFrame: The filtered stock price table.
+
     """
     train_test_column = train_test_split_params["train_test_column"]
     return stock_price_table.query(f"{train_test_column} == '{filter_value}'")
