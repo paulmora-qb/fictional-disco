@@ -1,5 +1,5 @@
 data_loader:
-  period: 5y
+  period: 10y
   relevant_columns:
     - Open
     - High

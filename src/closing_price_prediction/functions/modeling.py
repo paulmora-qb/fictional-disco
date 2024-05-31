@@ -81,7 +81,6 @@ def inference(
         train_test_split_params=modeling_params["train_test_split"],
         filter_value="TEST",
     )
-    test_data_predictions = experiment.predict_model(model, data=test_data)
     return (
         experiment.predict_model(model, data=stock_price_table_split),
         experiment.pull(),

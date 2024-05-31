@@ -2,12 +2,17 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from closing_price_prediction.functions.modeling import (inference,
-                                                         train_model,
-                                                         train_test_split)
+from closing_price_prediction.functions.modeling import (
+    inference,
+    train_model,
+    train_test_split,
+)
 from closing_price_prediction.functions.plotting import post_eda
 from closing_price_prediction.functions.preprocessing import (
-    create_auto_aggregation, create_master_dict, subtract_dataframes)
+    create_auto_aggregation,
+    create_master_dict,
+    subtract_dataframes,
+)
 
 
 def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
@@ -65,7 +70,7 @@ def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
                 "close_minus_open",
                 "price_aggregation",
             ],
-            outputs="stock_price_table",
+            outputs="master_tables",
             name="create_master_table",
             tags=["feature_engineering"],
         ),
@@ -150,7 +155,22 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
     )
 
 
-def create_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:
+def create_feature_pipeline(top_level_namespace: str) -> Pipeline:
+    """Create the feature engineering pipeline.
+
+    Args:
+    ----
+        top_level_namespace (str): The top level namespace.
+
+    Returns:
+    -------
+        Pipeline: The feature engineering pipeline.
+
+    """
+    return _create_feature_pipeline(top_level_namespace=top_level_namespace)
+
+
+def create_modeling_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:
     """Create the pipeline for the closing price prediction.
 
     Args:
@@ -163,7 +183,7 @@ def create_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:
         Pipeline: The closing price prediction pipeline.
 
     """
-    return _create_feature_pipeline(top_level_namespace=top_level_namespace) + sum(
+    return sum(
         _create_modeling_pipeline(
             top_level_namespace=top_level_namespace, variant=variant
         )
