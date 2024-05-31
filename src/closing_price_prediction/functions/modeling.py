@@ -2,7 +2,7 @@
 
 from typing import Any, TypeVar
 import pandas as pd
-from pycaret.regression import RegressionExperiment
+from pycaret.regression import RegressionExperiment, pull
 import matplotlib.pyplot as plt
 
 T = TypeVar("T")
@@ -55,6 +55,7 @@ def inference(
     stock_price_table_split: pd.DataFrame,
     experiment: RegressionExperiment,
     model: T,
+    modeling_params: dict[str, Any],
 ) -> pd.DataFrame:
     """Makes predictions using the trained model.
 
@@ -64,11 +65,21 @@ def inference(
             and what is test.
         experiment (RegressionExperiment): The experiment object.
         model (T): The trained model.
+        modeling_params (dict[str, Any]): Parameters for the modeling.
 
     Returns:
         pd.DataFrame: The predictions made by the model.
     """
-    return experiment.predict_model(model, data=stock_price_table_split)
+    test_data = _filter_train_test_data(
+        stock_price_table=stock_price_table_split,
+        train_test_split_params=modeling_params["train_test_split"],
+        filter_value="TEST",
+    )
+    test_data_predictions = experiment.predict_model(model, data=test_data)
+    return (
+        experiment.predict_model(model, data=stock_price_table_split),
+        experiment.pull(),
+    )
 
 
 def train_test_split(
@@ -124,7 +135,7 @@ def train_test_split(
 
 def _experiment_setup(
     data: pd.DataFrame, target_variable_name: str, setup_params: dict[str, str]
-):
+) -> RegressionExperiment:
     """Sets up a regression experiment.
 
     This function initializes a RegressionExperiment object and configures it with the

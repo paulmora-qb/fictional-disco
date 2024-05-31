@@ -37,6 +37,12 @@ _csv: &csv
 
 # Model Output #########################################################################
 
+"{namespace}.{variant}.prediction_performance":
+  <<: *csv
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/prediction_performance
+
+# Post EDA #############################################################################
+
 "{namespace}.{variant}.line_plot":
   type: "${_datasets.matplotlib}"
   filepath: data/08_reporting/{namespace}/{variant}.png
