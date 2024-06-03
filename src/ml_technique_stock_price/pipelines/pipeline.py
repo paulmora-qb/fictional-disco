@@ -2,13 +2,10 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from ml_technique_stock_price.functions.modeling import (
-    inference,
-    train_model,
-)
-from common.train_test_split import train_test_split
+from common.pycaret.regression import experiment_setup, inference, train_model
+from common.utilities.train_test_split import train_test_split
 
-from ml_technique_stock_price.functions.plotting import post_eda
+from common.plotting import line_plot
 from ml_technique_stock_price.functions.preprocessing import (
     create_auto_aggregation,
     create_master_dict,
@@ -16,7 +13,7 @@ from ml_technique_stock_price.functions.preprocessing import (
 )
 
 
-def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
+def _create_feature_pipeline() -> Pipeline:
     """Pipeline for machine learning techniques features.
 
     Parameters
@@ -77,11 +74,7 @@ def _create_feature_pipeline(top_level_namespace: str) -> Pipeline:
         ),
     ]
 
-    return pipeline(
-        nodes,
-        inputs={"high", "low", "close", "open", "adj_close"},
-        namespace=top_level_namespace,
-    )
+    return pipeline(nodes)
 
 
 def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline:
@@ -103,6 +96,16 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
     """
     nodes = [
         node(
+            func=experiment_setup,
+            inputs={
+                "stock_price_data": "stock_price_table_split",
+                "setup_params": "params:modeling_params",
+            },
+            outputs="experiment",
+            name="experiment_setup",
+            tags=["modeling"],
+        ),
+        node(
             func=train_test_split,
             inputs={
                 "stock_price_table": "stock_price_table",
@@ -118,7 +121,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
                 "stock_price_table_split": "stock_price_table_split",
                 "modeling_params": "params:modeling_params",
             },
-            outputs=["experiment", "finalized_model"],
+            outputs=["train_experiment", "finalized_model"],
             name="train_model",
             tags=["modeling"],
         ),
@@ -126,7 +129,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
             func=inference,
             inputs={
                 "stock_price_table_split": "stock_price_table_split",
-                "experiment": "experiment",
+                "experiment": "train_experiment",
                 "model": "finalized_model",
                 "modeling_params": "params:modeling_params",
             },
@@ -135,7 +138,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
             tags=["modeling"],
         ),
         node(
-            func=post_eda,
+            func=line_plot,
             inputs={
                 "predictions": "predictions",
                 "modeling_params": "params:modeling_params",
@@ -156,19 +159,13 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
     )
 
 
-def create_feature_pipeline(top_level_namespace: str) -> Pipeline:
-    """Create the feature engineering pipeline.
-
-    Args:
-    ----
-        top_level_namespace (str): The top level namespace.
+def create_feature_pipeline() -> Pipeline:
+    """_summary_
 
     Returns:
-    -------
-        Pipeline: The feature engineering pipeline.
-
+        Pipeline: _description_
     """
-    return _create_feature_pipeline(top_level_namespace=top_level_namespace)
+    return _create_feature_pipeline()
 
 
 def create_modeling_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:

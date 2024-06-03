@@ -26,16 +26,6 @@ def create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline
     """
     nodes = [
         node(
-            func=experiment_setup,
-            inputs={
-                "stock_price_data": "stock_price_table_split",
-                "setup_params": "params:modeling_params",
-            },
-            outputs="experiment",
-            name="experiment_setup",
-            tags=["modeling"],
-        ),
-        node(
             func=train_test_split,
             inputs={
                 "stock_price_table": "stock_price_table",
@@ -89,7 +79,7 @@ def create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline
     )
 
 
-def create_modeling_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:
+def create_pipeline(top_level_namespace: str, variants: list[str]) -> Pipeline:
     """Create the pipeline for the closing price prediction.
 
     Args:

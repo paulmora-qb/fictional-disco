@@ -1,0 +1,9 @@
+subtraction:
+  high_minus_low: high_minus_low
+  close_minus_open: close_minus_open
+
+aggregation:
+  - aggregation_type: mean
+    aggregation_lengths: [7, 14, 21]
+  - aggregation_type: std
+    aggregation_lengths: [7]

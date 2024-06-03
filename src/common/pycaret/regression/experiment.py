@@ -3,8 +3,7 @@
 from typing import TypeVar
 
 import pandas as pd
-from pycaret.time_series import TSForecastingExperiment
-from common.utilities.extract_target_variable_name import extract_target_variable_name
+from pycaret.regression import RegressionExperiment
 
 T = TypeVar("T")
 
@@ -12,7 +11,7 @@ T = TypeVar("T")
 def experiment_setup(
     stock_price_data: pd.DataFrame,
     setup_params: dict[str, str],
-) -> TSForecastingExperiment:
+) -> RegressionExperiment:
     """_summary_
 
     Args:
@@ -21,11 +20,9 @@ def experiment_setup(
         setup_params (dict[str, str]): _description_
 
     Returns:
-        TSForecastingExperiment: _description_
+        regression_experiment: _description_
     """
-    target_variable_name = extract_target_variable_name(stock_price_data.columns)
-
-    ts_experiment = TSForecastingExperiment()
-    return ts_experiment.setup(
+    regression_experiment = RegressionExperiment()
+    return regression_experiment.setup(
         data=stock_price_data, target=target_variable_name, **setup_params
     )
