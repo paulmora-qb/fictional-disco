@@ -5,6 +5,7 @@ from typing import TypeVar
 import pandas as pd
 from pycaret.time_series import TSForecastingExperiment
 from common.utilities.extract_target_variable_name import extract_target_variable_name
+from common.utilities.ensure_positive_values import ensure_positive_values
 
 T = TypeVar("T")
 
@@ -26,6 +27,9 @@ def experiment_setup(
     target_variable_name = extract_target_variable_name(stock_price_data.columns)
 
     ts_experiment = TSForecastingExperiment()
+    stock_price_data = ensure_positive_values(df=stock_price_data)
+    stock_price_data = stock_price_data.asfreq("B")
+
     return ts_experiment.setup(
         data=stock_price_data, target=target_variable_name, **setup_params
     )

@@ -5,35 +5,11 @@ _csv: &csv
   load_args:
     index_col: Date
 
-# Features #########################################################################
-
-"{namespace}.high_minus_low":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.ftr}/{namespace}/high_minus_low
-
-"{namespace}.close_minus_open":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.ftr}/{namespace}/close_minus_open
-
-"{namespace}.price_aggregation":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.ftr}/{namespace}/price_aggregation
-
-# Model Input #########################################################################
-
-"{namespace}.master_tables":
-  type: ${_datasets.partitioned}
-  path: ${_base_path}/${_folders.mip}/{namespace}
-  dataset:
-    type: "${_datasets.csv}"
-    load_args:
-      index: True
-    save_args:
-      index: true
+# Model Input ##########################################################################
 
 "{namespace}.{variant}.stock_price_table":
   <<: *csv
-  filepath: ${_base_path}/${_folders.mip}/{namespace}/{variant}
+  filepath: ${_base_path}/${_folders.mip}/stock_features/{variant}
 
 # Model Output #########################################################################
 

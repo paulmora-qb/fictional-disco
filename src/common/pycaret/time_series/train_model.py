@@ -3,7 +3,6 @@
 from typing import TypeVar
 
 import pandas as pd
-from common.utilities.extract_target_variable_name import extract_target_variable_name
 from common.utilities.train_test_split import filter_train_test_data
 from pycaret.time_series import TSForecastingExperiment
 from common.pycaret.time_series.experiment import experiment_setup
@@ -24,8 +23,6 @@ def train_model(
     Returns:
         _type_: _description_
     """
-    target_variable_name = extract_target_variable_name(stock_price_table_split.columns)
-
     train_stock_price_table = filter_train_test_data(
         stock_price_table=stock_price_table_split,
         train_test_split_params=modeling_params["train_test_split"],
@@ -34,7 +31,6 @@ def train_model(
 
     experiment = experiment_setup(
         stock_price_data=train_stock_price_table,
-        target_variable_name=target_variable_name,
         setup_params=modeling_params["setup_params"],
     )
 
