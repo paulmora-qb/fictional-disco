@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Patch
 
-from ml_technique_stock_price.functions.modeling import _extract_target_variable_name
+from utilities.extract_target_variable_name import extract_target_variable_name
 
 
-def post_eda(
+def line_plot(
     predictions: pd.DataFrame,
     modeling_params: dict[str, Any],
 ) -> plt.Figure:
@@ -27,7 +27,7 @@ def post_eda(
 
     """
     # Extract necessary parameters from modeling_params
-    target_column_name = _extract_target_variable_name(predictions.columns)
+    target_column_name = extract_target_variable_name(predictions.columns)
     plot_params = modeling_params.get("plotting_parameters", {})
     train_test_split_column = modeling_params["train_test_split"]["train_test_column"]
 

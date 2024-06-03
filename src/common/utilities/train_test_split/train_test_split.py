@@ -56,3 +56,28 @@ def train_test_split(
     ]
 
     return stock_price_table
+
+
+def filter_train_test_data(
+    stock_price_table: pd.DataFrame,
+    train_test_split_params: dict[str, str],
+    filter_value: str,
+) -> pd.DataFrame:
+    """Filter the training data based on the train-test split parameters.
+
+    Args:
+    ----
+        stock_price_table (pd.DataFrame): The stock price table.
+        train_test_split_params (dict[str, str]): The parameters for the train-test
+            split. Contains the name of the column indicating the split.
+        filter_value (str): The value used to filter the training data. Only rows
+            where the train_test_column matches this value will be included in the
+            filtered stock price table.
+
+    Returns:
+    -------
+        pd.DataFrame: The filtered stock price table.
+
+    """
+    train_test_column = train_test_split_params["train_test_column"]
+    return stock_price_table.query(f"{train_test_column} == '{filter_value}'")

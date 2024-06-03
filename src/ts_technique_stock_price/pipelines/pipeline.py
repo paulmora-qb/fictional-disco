@@ -1,10 +1,14 @@
-"""Time Series Pipelines"""
+"""Pipeline for price prediction."""
 
 from kedro.pipeline import Pipeline, node, pipeline
 
+from common.pycaret.time_series import inference, train_model, experiment_setup
+from common.utilities.train_test_split import train_test_split
+from common.plotting import line_plot
 
-def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline:
-    """Pipeline for time series techniques modeling.
+
+def create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline:
+    """Pipeline for machine learning techniques modeling.
 
     Parameters
     ----------
@@ -21,6 +25,16 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
 
     """
     nodes = [
+        node(
+            func=experiment_setup,
+            inputs={
+                "stock_price_data": "stock_price_table_split",
+                "setup_params": "params:modeling_params",
+            },
+            outputs="experiment",
+            name="experiment_setup",
+            tags=["modeling"],
+        ),
         node(
             func=train_test_split,
             inputs={
@@ -54,7 +68,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
             tags=["modeling"],
         ),
         node(
-            func=post_eda,
+            func=line_plot,
             inputs={
                 "predictions": "predictions",
                 "modeling_params": "params:modeling_params",
@@ -89,7 +103,7 @@ def create_modeling_pipeline(top_level_namespace: str, variants: list[str]) -> P
 
     """
     return sum(
-        _create_modeling_pipeline(
+        create_modeling_pipeline(
             top_level_namespace=top_level_namespace, variant=variant
         )
         for variant in variants

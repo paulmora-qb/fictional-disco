@@ -1,4 +1,4 @@
-closing_price_prediction:
+ml_technique_modeling:
   subtraction:
     high_minus_low: high_minus_low
     close_minus_open: close_minus_open
