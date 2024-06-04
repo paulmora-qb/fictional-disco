@@ -1,6 +1,6 @@
-import pandas as pd
-
 """Function to ensure positive values."""
+
+import pandas as pd
 
 
 def ensure_positive_values(df: pd.DataFrame) -> pd.DataFrame:

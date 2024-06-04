@@ -14,17 +14,19 @@ T = TypeVar("T")
 def train_model(
     stock_price_table_split: pd.DataFrame,
     modeling_params: dict[str, str],
-):
-    """_summary_
+) -> tuple[TSForecastingExperiment, T]:
+    """Train the model for closing price prediction.
 
     Args:
     ----
-        stock_price_table_split (pd.DataFrame): _description_
-        modeling_params (dict[str, str]): _description_
+        stock_price_table_split (pd.DataFrame): DataFrame containing the stock price
+            table, which also contains a column which indicates what should be train
+            and what is test.
+        modeling_params (dict[str, str]): Parameters for the modeling.
 
     Returns:
     -------
-        _type_: _description_
+        tuple[TSForecastingExperiment, T]: The experiment object and the trained model.
 
     """
     train_stock_price_table = filter_train_test_data(

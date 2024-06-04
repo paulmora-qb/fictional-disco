@@ -12,17 +12,17 @@ def experiment_setup(
     stock_price_data: pd.DataFrame,
     setup_params: dict[str, str],
 ) -> RegressionExperiment:
-    """_summary_
+    """Experiment setup for pycaret regression.
 
     Args:
     ----
-        stock_price_data (pd.DataFrame): _description_
-        target_variable_name (str): _description_
-        setup_params (dict[str, str]): _description_
+        stock_price_data (pd.DataFrame): Stock Price Data.
+        target_variable_name (str): Name of the target variable.
+        setup_params (dict[str, str]): Parameters for the setup.
 
     Returns:
     -------
-        regression_experiment: _description_
+        regression_experiment: The regression experiment object.
 
     """
     regression_experiment = RegressionExperiment()

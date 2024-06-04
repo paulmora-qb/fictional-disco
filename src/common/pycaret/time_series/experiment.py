@@ -18,17 +18,17 @@ def experiment_setup(
     stock_price_data: pd.DataFrame,
     setup_params: dict[str, str],
 ) -> TSForecastingExperiment:
-    """_summary_
+    """Experiment setup for pycaret time series forecasting.
 
     Args:
     ----
-        stock_price_data (pd.DataFrame): _description_
-        target_variable_name (str): _description_
-        setup_params (dict[str, str]): _description_
+        stock_price_data (pd.DataFrame): Stock Price Data.
+        target_variable_name (str): Name of the target variable.
+        setup_params (dict[str, str]): Parameters for the setup.
 
     Returns:
     -------
-        TSForecastingExperiment: _description_
+        TSForecastingExperiment: The time series forecasting experiment object.
 
     """
     target_variable_name = extract_target_variable_name(stock_price_data.columns)
