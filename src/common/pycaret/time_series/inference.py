@@ -3,7 +3,7 @@
 from typing import Any, TypeVar
 
 import pandas as pd
-from pycaret.regression import RegressionExperiment
+from pycaret.time_series import TSForecastingExperiment
 from common.utilities.train_test_split import filter_train_test_data
 
 T = TypeVar("T")
@@ -11,7 +11,7 @@ T = TypeVar("T")
 
 def inference(
     stock_price_table_split: pd.DataFrame,
-    experiment: RegressionExperiment,
+    experiment: TSForecastingExperiment,
     model: T,
     modeling_params: dict[str, Any],
 ) -> pd.DataFrame:
@@ -19,7 +19,7 @@ def inference(
 
     Args:
     ----
-        stock_price_table_split (pd.DataFrame): Dataframe containing the stock price
+        stock_price_table_split (pd.DataFrame): DataFrame containing the stock price
             table, which also contains a column which indicates what should be train
             and what is test.
         experiment (RegressionExperiment): The experiment object.
@@ -35,8 +35,10 @@ def inference(
         stock_price_table=stock_price_table_split,
         train_test_split_params=modeling_params["train_test_split"],
         filter_value="TEST",
+        drop_column=True,
     )
+
     return (
-        experiment.predict_model(model, data=stock_price_table_split),
+        experiment.predict_model(model, X=test_data),
         experiment.pull(),
     )

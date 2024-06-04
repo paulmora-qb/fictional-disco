@@ -27,6 +27,7 @@ def train_model(
         stock_price_table=stock_price_table_split,
         train_test_split_params=modeling_params["train_test_split"],
         filter_value="TRAIN",
+        drop_column=True,
     )
 
     experiment = experiment_setup(

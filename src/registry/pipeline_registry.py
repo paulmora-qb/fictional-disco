@@ -41,6 +41,6 @@ def register_pipelines() -> dict[str, Pipeline]:
         # Stock Predictions: Time Series Pipelines
         "ts_technique_modeling": ts_technique_modeling(
             top_level_namespace="ts_technique_modeling",
-            variants=["MMM", "AOS", "ABT", "ABBV", "ACN"],
+            variants=["MMM"],
         ),
     }

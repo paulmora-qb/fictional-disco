@@ -62,6 +62,7 @@ def filter_train_test_data(
     stock_price_table: pd.DataFrame,
     train_test_split_params: dict[str, str],
     filter_value: str,
+    drop_column: bool = False,
 ) -> pd.DataFrame:
     """Filter the training data based on the train-test split parameters.
 
@@ -73,6 +74,8 @@ def filter_train_test_data(
         filter_value (str): The value used to filter the training data. Only rows
             where the train_test_column matches this value will be included in the
             filtered stock price table.
+        drop_column (bool): Whether to drop the train_test_column from the filtered
+            stock price table. Default is False.
 
     Returns:
     -------
@@ -80,4 +83,11 @@ def filter_train_test_data(
 
     """
     train_test_column = train_test_split_params["train_test_column"]
-    return stock_price_table.query(f"{train_test_column} == '{filter_value}'")
+    filtered_stock_price_data = stock_price_table.query(
+        f"{train_test_column} == '{filter_value}'"
+    )
+    return (
+        filtered_stock_price_data.drop(columns=[train_test_column])
+        if drop_column
+        else filtered_stock_price_data
+    )

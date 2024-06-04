@@ -20,7 +20,6 @@ ts_technique_modeling:
       sort: MAE
     tuned_params:
       n_iter: 10
-      search_library: optuna
       choose_better: True
       optimize: MAE
     plotting_params:
