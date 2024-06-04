@@ -2,15 +2,11 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
+from common.plotting import line_plot
 from common.pycaret.regression import experiment_setup, inference, train_model
 from common.utilities.train_test_split import train_test_split
-
-from common.plotting import line_plot
 from ml_technique_stock_price.functions.preprocessing import (
-    create_auto_aggregation,
-    create_master_dict,
-    subtract_dataframes,
-)
+    create_auto_aggregation, create_master_dict, subtract_dataframes)
 
 
 def _create_feature_pipeline() -> Pipeline:
@@ -150,10 +146,12 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
 
 
 def create_feature_pipeline() -> Pipeline:
-    """_summary_
+    """Create the feature pipeline for the closing price prediction.
 
-    Returns:
-        Pipeline: _description_
+    Returns
+    -------
+        Pipeline: The closing price prediction feature pipeline.
+
     """
     return _create_feature_pipeline()
 

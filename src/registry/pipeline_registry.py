@@ -4,16 +4,14 @@ import pickle
 
 from kedro.pipeline import Pipeline
 
-from data_collection.pipelines import (
-    create_non_incremental_pipeline as non_incremental_data_collection,
-)
-from ml_technique_stock_price.pipelines import (
-    create_feature_pipeline as ml_technique_feature_engineering,
-)
-from ml_technique_stock_price.pipelines import (
-    create_modeling_pipeline as ml_technique_modeling,
-)
-from ts_technique_stock_price.pipelines import create_pipeline as ts_technique_modeling
+from data_collection.pipelines import \
+    create_non_incremental_pipeline as non_incremental_data_collection
+from ml_technique_stock_price.pipelines import \
+    create_feature_pipeline as ml_technique_feature_engineering
+from ml_technique_stock_price.pipelines import \
+    create_modeling_pipeline as ml_technique_modeling
+from ts_technique_stock_price.pipelines import \
+    create_pipeline as ts_technique_modeling
 
 with open("data/01_raw/list_stock_symbols.pkl", "rb") as f:
     list_stock_symbols = pickle.load(f)

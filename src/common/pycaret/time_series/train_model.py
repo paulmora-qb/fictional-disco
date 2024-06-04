@@ -3,9 +3,10 @@
 from typing import TypeVar
 
 import pandas as pd
-from common.utilities.train_test_split import filter_train_test_data
 from pycaret.time_series import TSForecastingExperiment
+
 from common.pycaret.time_series.experiment import experiment_setup
+from common.utilities.train_test_split import filter_train_test_data
 
 T = TypeVar("T")
 
@@ -17,11 +18,14 @@ def train_model(
     """_summary_
 
     Args:
+    ----
         stock_price_table_split (pd.DataFrame): _description_
         modeling_params (dict[str, str]): _description_
 
     Returns:
+    -------
         _type_: _description_
+
     """
     train_stock_price_table = filter_train_test_data(
         stock_price_table=stock_price_table_split,

@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Patch
 
-from common.utilities.extract_target_variable_name import extract_target_variable_name
+from common.utilities.extract_target_variable_name import \
+    extract_target_variable_name
 
 
 def line_plot(

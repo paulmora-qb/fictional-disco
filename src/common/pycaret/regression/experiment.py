@@ -15,12 +15,15 @@ def experiment_setup(
     """_summary_
 
     Args:
+    ----
         stock_price_data (pd.DataFrame): _description_
         target_variable_name (str): _description_
         setup_params (dict[str, str]): _description_
 
     Returns:
+    -------
         regression_experiment: _description_
+
     """
     regression_experiment = RegressionExperiment()
     return regression_experiment.setup(

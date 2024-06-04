@@ -1,7 +1,8 @@
 """Train-test split function."""
 
-import pandas as pd
 from typing import Any
+
+import pandas as pd
 
 
 def train_test_split(

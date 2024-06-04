@@ -11,10 +11,13 @@ def ensure_positive_values(df: pd.DataFrame) -> pd.DataFrame:
     one. This is only done of course for columns which are not of type string.
 
     Args:
+    ----
         df (pd.DataFrame): DataFrame to ensure positive values.
 
     Returns:
+    -------
         pd.DataFrame: DataFrame with positive values.
+
     """
     for column in df.columns:
         if df[column].dtype != "object":

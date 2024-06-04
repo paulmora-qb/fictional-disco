@@ -4,6 +4,7 @@ from typing import Any, TypeVar
 
 import pandas as pd
 from pycaret.time_series import TSForecastingExperiment
+
 from common.utilities.train_test_split import filter_train_test_data
 
 T = TypeVar("T")
@@ -37,8 +38,20 @@ def inference(
         filter_value="TEST",
         drop_column=True,
     )
+    train_data = filter_train_test_data(
+        stock_price_table=stock_price_table_split,
+        train_test_split_params=modeling_params["train_test_split"],
+        filter_value="TRAIN",
+        drop_column=True,
+    )
+
+    train_data = train_data.asfreq("B")
+    train_data.index = train_data.index.to_period("B")
+    test_data = test_data.asfreq("B")
+    test_data.index = test_data.index.to_period("B")
+    experiment.data = train_data
 
     return (
-        experiment.predict_model(model, X=test_data),
+        experiment.predict_model(model, X=train_data, fh=100),
         experiment.pull(),
     )
