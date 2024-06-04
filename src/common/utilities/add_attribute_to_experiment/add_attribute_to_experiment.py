@@ -18,8 +18,10 @@ def add_attribute_to_experiment(
     Function will enable user to add the missing/necessary attributes to the experiment.
 
     Args:
+    ----
         experiment: An experiment created by PyCaret.
         attribute: Name of the attribute.
         attribute_attribute_value: Value of the attribute.
+
     """
     setattr(experiment, attribute, attribute_attribute_value)
