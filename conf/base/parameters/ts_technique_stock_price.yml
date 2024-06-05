@@ -1,7 +1,7 @@
 ts_technique_modeling:
   modeling_params:
     train_test_split:
-      time_window: 1y
+      time_window: 14d
       train_test_column: train_test
     frequency_params:
       frequency: "B"
@@ -9,14 +9,15 @@ ts_technique_modeling:
       fold_strategy: expanding
       numeric_imputation_target: linear
       numeric_imputation_exogenous: linear
-      enforce_exogenous: True
-      fh: 252
+      enforce_exogenous: False
+      fh: 14
       fold: 3
       transform_target: box-cox
       transform_exogenous: box-cox
       session_id: 123
       ignore_features:
         - train_test
+      max_sp_to_consider: null
     train_params:
       sort: MAE
     tuned_params:

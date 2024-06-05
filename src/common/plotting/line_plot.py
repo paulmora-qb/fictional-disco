@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Patch
 
-from common.utilities.extract_target_variable_name import \
-    extract_target_variable_name
+from common.utilities.extract_target_variable_name import extract_target_variable_name
 
 
 def line_plot(
@@ -30,7 +29,6 @@ def line_plot(
     # Extract necessary parameters from modeling_params
     target_column_name = extract_target_variable_name(predictions.columns)
     plot_params = modeling_params.get("plotting_parameters", {})
-    train_test_split_column = modeling_params["train_test_split"]["train_test_column"]
 
     # Define default plot parameters if not provided
     title = plot_params.get("title", f"Stock Symbol: {target_column_name}")
@@ -44,35 +42,27 @@ def line_plot(
     # Plotting
     plt.figure(figsize=(10, 6))
 
-    (true_data,) = plt.plot(
-        predictions.index,
+    plt.plot(
+        predictions.index.to_timestamp(),
         predictions[target_column_name],
         linestyle=linestyle,
         color=true_color,
         alpha=alpha,
-        label="Actual (Train)",
+        label="Actual",
     )
-    (pred_data,) = plt.plot(
-        predictions.index,
+    plt.plot(
+        predictions.index.to_timestamp(),
         predictions["prediction_label"],
         linestyle=linestyle,
         color=pred_color,
         alpha=alpha,
-        label="Predicted (Train)",
+        label="Prediction",
     )
-
-    test_index = predictions.query(f"{train_test_split_column} == 'TEST'").index
-    plt.axvspan(test_index[0], test_index[-1], color="grey", alpha=0.3)
-    handles = [
-        Patch(facecolor="grey", edgecolor="grey", alpha=0.3, label="Test Period"),
-        true_data,
-        pred_data,
-    ]
     # Customizing the plot
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.legend(handles=handles)
+    plt.legend()
     plt.grid(True)
 
     # Show the plot

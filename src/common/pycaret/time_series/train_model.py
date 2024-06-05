@@ -38,10 +38,10 @@ def train_model(
 
     experiment = experiment_setup(
         stock_price_data=train_stock_price_table,
-        setup_params=modeling_params["setup_params"],
-        freq_params=modeling_params["frequency_params"],
+        modeling_params=modeling_params,
     )
 
-    base_model = experiment.compare_models(**modeling_params["train_params"])
+    base_model = experiment.create_model("arima")
+    # base_model = experiment.compare_models(**modeling_params["train_params"])
     tuned_model = experiment.tune_model(base_model, **modeling_params["tuned_params"])
     return experiment, experiment.finalize_model(tuned_model)

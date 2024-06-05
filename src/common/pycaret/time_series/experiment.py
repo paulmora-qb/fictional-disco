@@ -41,10 +41,9 @@ def experiment_setup(
     )
 
     attr_dict = {
-        "master_table_columns": list(stock_price_data.columns),
+        "feature_columns": stock_price_data.columns.drop(target_variable_name),
         "train_data": stock_price_data,
         "target_vbl_col": target_variable_name,
     }
-    for attr_name, attr in attr_dict.items():
-        add_attribute_to_experiment(ts_experiment, attr_name, attr)
+    add_attribute_to_experiment(ts_experiment, attr_dict)
     return ts_experiment

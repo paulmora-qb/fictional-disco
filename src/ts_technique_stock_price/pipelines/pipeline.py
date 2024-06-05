@@ -53,7 +53,7 @@ def create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline
                 "model": "finalized_model",
                 "modeling_params": "params:modeling_params",
             },
-            outputs=["predictions", "prediction_performance"],
+            outputs="predictions",
             name="inference",
             tags=["modeling"],
         ),
