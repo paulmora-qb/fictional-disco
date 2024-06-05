@@ -3,9 +3,11 @@
 from typing import TypeVar
 
 import pandas as pd
-from common.utilities.train_test_split import filter_train_test_data
-from common.utilities.extract_target_variable_name import extract_target_variable_name
+
 from common.pycaret.experiment import experiment_setup
+from common.utilities.extract_target_variable_name import \
+    extract_target_variable_name
+from common.utilities.train_test_split import filter_train_test_data
 
 T = TypeVar("T")
 
@@ -64,14 +66,16 @@ def _extract_performance_information(
     """Extract performance information from the experiment.
 
     Args:
+    ----
         experiment (T): The experiment object.
         target_variable_name (_type_): The name of the target variable column.
 
     Returns:
+    -------
         pd.DataFrame: The performance data.
-    """
 
+    """
     performance_data = experiment.pull()
     performance_data = performance_data.loc[["Mean"], :]
-    performance_data.index = [target_variable_name]
+    performance_data.loc[:, "Ticker"] = target_variable_name
     return performance_data

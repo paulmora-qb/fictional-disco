@@ -1,7 +1,9 @@
 """Pipelines for multi variant output."""
 
 from kedro.pipeline import Pipeline, node, pipeline
-from common.utilities.combine_datasets import merge_datasets, concatenate_datasets
+
+from common.utilities.combine_datasets import (concatenate_datasets,
+                                               merge_datasets)
 
 
 def create_experiment_predictions_variant_concat_pipeline(
@@ -12,12 +14,15 @@ def create_experiment_predictions_variant_concat_pipeline(
     """Create pipeline that concatenates DataFrames when having multiple variants.
 
     Args:
+    ----
         top_level_namespace (str): Namespace for the pipeline.
         variants (list[str]): List of variants to include in the pipeline.
         experiment_name (str): Name of the experiment.
 
     Returns:
+    -------
         Pipeline: The pipeline for concatenating DataFrames.
+
     """
     exp_pred_inputs_list = [f"{variant}.{experiment_name}" for variant in variants]
     nodes = [
@@ -41,12 +46,15 @@ def create_experiment_predictions_variant_merge_pipeline(
     """Create pipeline that merges DataFrames when having multiple variants.
 
     Args:
+    ----
         top_level_namespace (str): Namespace for the pipeline.
         variants (list[str]): List of variants to include in the pipeline.
         experiment_name (str): Name of the experiment.
 
     Returns:
+    -------
         Pipeline: The pipeline for merging DataFrames.
+
     """
     exp_pred_inputs_list = [f"{variant}.{experiment_name}" for variant in variants]
     exp_pred_inputs = dict(zip(variants, exp_pred_inputs_list))

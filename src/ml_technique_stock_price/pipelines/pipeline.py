@@ -4,11 +4,10 @@ from kedro.pipeline import Pipeline, node, pipeline
 
 from common.plotting import line_plot
 from common.pycaret import inference, train_model
-from common.utilities.train_test_split import train_test_split
 from common.utilities.multi_variant.pipelines import (
-    create_experiment_predictions_variant_merge_pipeline,
     create_experiment_predictions_variant_concat_pipeline,
-)
+    create_experiment_predictions_variant_merge_pipeline)
+from common.utilities.train_test_split import train_test_split
 
 
 def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline:

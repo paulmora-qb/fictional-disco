@@ -1,11 +1,9 @@
 """Pipeline for feature engineering."""
 
 from kedro.pipeline import Pipeline, node, pipeline
+
 from feature_engineering.functions.preprocessing import (
-    create_auto_aggregation,
-    create_master_dict,
-    subtract_dataframes,
-)
+    create_auto_aggregation, create_master_dict, subtract_dataframes)
 
 
 def _create_feature_pipeline() -> Pipeline:
@@ -75,7 +73,7 @@ def _create_feature_pipeline() -> Pipeline:
 def create_pipeline() -> Pipeline:
     """Create the feature engineering pipeline.
 
-    Returns:
+    Returns
     -------
         Pipeline: The feature engineering pipeline.
 

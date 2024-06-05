@@ -4,6 +4,7 @@ from typing import Any, TypeVar
 
 import pandas as pd
 from pycaret.regression import RegressionExperiment
+
 from common.utilities.train_test_split import filter_train_test_data
 
 T = TypeVar("T")
