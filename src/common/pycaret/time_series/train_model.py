@@ -41,7 +41,14 @@ def train_model(
         modeling_params=modeling_params,
     )
 
-    base_model = experiment.create_model("arima")
-    # base_model = experiment.compare_models(**modeling_params["train_params"])
+    # all_models = list(experiment.models().index)
+    # unwanted_models = ["auto_arima", "knn_cds_dt"]
+    # tested_models = [model for model in all_models if model not in unwanted_models]
+    tested_models = ["bats", "theta", "naive", "croston"]
+
+    train_params = modeling_params["train_params"]
+    train_params["include"] = tested_models
+
+    base_model = experiment.compare_models(**train_params)
     tuned_model = experiment.tune_model(base_model, **modeling_params["tuned_params"])
     return experiment, experiment.finalize_model(tuned_model)

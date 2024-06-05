@@ -20,6 +20,7 @@ ts_technique_modeling:
       max_sp_to_consider: null
     train_params:
       sort: MAE
+      n_select: 5
     tuned_params:
       n_iter: 10
       choose_better: True
