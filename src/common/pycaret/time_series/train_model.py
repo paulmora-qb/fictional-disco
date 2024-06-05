@@ -39,6 +39,7 @@ def train_model(
     experiment = experiment_setup(
         stock_price_data=train_stock_price_table,
         setup_params=modeling_params["setup_params"],
+        freq_params=modeling_params["frequency_params"],
     )
 
     base_model = experiment.compare_models(**modeling_params["train_params"])

@@ -3,13 +3,14 @@ ts_technique_modeling:
     train_test_split:
       time_window: 1y
       train_test_column: train_test
+    frequency_params:
+      frequency: "B"
     setup_params:
       fold_strategy: expanding
-      fh: 1
-      seasonal_period: D
       numeric_imputation_target: linear
       numeric_imputation_exogenous: linear
-      enforce_exogenous: False
+      enforce_exogenous: True
+      fh: 252
       fold: 3
       transform_target: box-cox
       transform_exogenous: box-cox
