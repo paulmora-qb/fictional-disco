@@ -5,7 +5,7 @@ import yfinance as yf
 from tqdm import tqdm
 
 
-def non_incremental_price_creation(
+def data_collection(
     sp500_data: pd.DataFrame, data_loader_params: dict[str, str]
 ) -> dict[str, pd.DataFrame]:
     """Create a DataFrame with the price data for the S&P 500 companies.

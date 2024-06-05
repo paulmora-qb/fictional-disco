@@ -10,6 +10,7 @@ T = TypeVar("T")
 
 def experiment_setup(
     stock_price_data: pd.DataFrame,
+    target_variable_name: str,
     setup_params: dict[str, str],
 ) -> RegressionExperiment:
     """Experiment setup for pycaret regression.

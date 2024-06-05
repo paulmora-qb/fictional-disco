@@ -1,4 +1,0 @@
-"{namespace}.{variant}.experiment":
-  type: "${_datasets.pickle}"
-  backend: cloudpickle
-  filepath: "${_base_path}/${_folders.mdl}/{namespace}/{variant}/experiment.pkl"
