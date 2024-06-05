@@ -14,10 +14,14 @@ ml_technique_modeling:
         - train_test
     train_params:
       sort: MAE
+      exclude:
+        - par # Has a problem with hyperparameter tuning
     tuned_params:
       n_iter: 10
       search_library: optuna
       choose_better: True
       optimize: MAE
-    plotting_params:
-      fig_size: [10, 6]
+
+  predictions:
+    merge_cols:
+      - Date

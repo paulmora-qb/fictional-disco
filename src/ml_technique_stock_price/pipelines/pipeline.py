@@ -5,6 +5,10 @@ from kedro.pipeline import Pipeline, node, pipeline
 from common.plotting import line_plot
 from common.pycaret import inference, train_model
 from common.utilities.train_test_split import train_test_split
+from common.utilities.multi_variant.pipelines import (
+    create_experiment_predictions_variant_merge_pipeline,
+    create_experiment_predictions_variant_concat_pipeline,
+)
 
 
 def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipeline:
@@ -41,7 +45,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
                 "stock_price_table_split": "stock_price_table_split",
                 "modeling_params": "params:modeling_params",
             },
-            outputs=["train_experiment", "finalized_model"],
+            outputs=["train_experiment", "finalized_model", "performance"],
             name="train_model",
             tags=["modeling"],
         ),
@@ -52,7 +56,7 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
                 "experiment": "train_experiment",
                 "model": "finalized_model",
             },
-            outputs=["predictions", "prediction_performance"],
+            outputs="predictions",
             name="inference",
             tags=["modeling"],
         ),
@@ -91,9 +95,21 @@ def create_modeling_pipeline(top_level_namespace: str, variants: list[str]) -> P
         Pipeline: The closing price prediction pipeline.
 
     """
-    return sum(
-        _create_modeling_pipeline(
-            top_level_namespace=top_level_namespace, variant=variant
+    return (
+        sum(
+            _create_modeling_pipeline(
+                top_level_namespace=top_level_namespace, variant=variant
+            )
+            for variant in variants
         )
-        for variant in variants
+        + create_experiment_predictions_variant_merge_pipeline(
+            top_level_namespace=top_level_namespace,
+            variants=variants,
+            experiment_name="predictions",
+        )
+        + create_experiment_predictions_variant_concat_pipeline(
+            top_level_namespace=top_level_namespace,
+            variants=variants,
+            experiment_name="performance",
+        )
     )

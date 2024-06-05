@@ -41,6 +41,7 @@ def train_model(
         stock_price_table=stock_price_table_split,
         train_test_split_params=modeling_params["train_test_split"],
         filter_value="TRAIN",
+        drop_column=True,
     )
 
     experiment = experiment_setup(
@@ -50,5 +51,27 @@ def train_model(
     )
 
     base_model = experiment.compare_models(**modeling_params["train_params"])
-    tuned_model = experiment.tune_model(base_model, **modeling_params["tuned_params"])
-    return experiment, experiment.finalize_model(tuned_model)
+    model = experiment.tune_model(base_model, **modeling_params["tuned_params"])
+    performance_data = _extract_performance_information(
+        experiment, target_variable_name
+    )
+    return experiment, experiment.finalize_model(model), performance_data
+
+
+def _extract_performance_information(
+    experiment: T, target_variable_name
+) -> pd.DataFrame:
+    """Extract performance information from the experiment.
+
+    Args:
+        experiment (T): The experiment object.
+        target_variable_name (_type_): The name of the target variable column.
+
+    Returns:
+        pd.DataFrame: The performance data.
+    """
+
+    performance_data = experiment.pull()
+    performance_data = performance_data.loc[["Mean"], :]
+    performance_data.index = [target_variable_name]
+    return performance_data

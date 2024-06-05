@@ -15,7 +15,11 @@ _csv: &csv
 
 "{namespace}.{variant}.prediction_performance":
   <<: *csv
-  filepath: ${_base_path}/${_folders.mop}/{namespace}/prediction_performance/{variant}
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/performance_data/{variant}
+
+"{namespace}.{variant}.predictions":
+  <<: *csv
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/predictions/{variant}
 
 # Post EDA #############################################################################
 
@@ -24,3 +28,13 @@ _csv: &csv
   filepath: data/08_reporting/{namespace}/{variant}.png
   save_args:
     format: png
+
+# Combine ########################################################################
+
+"{namespace}.predictions_merged":
+  <<: *csv
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/predictions_merged
+
+"{namespace}.performance_concatenated":
+  <<: *csv
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/performance_concatenated

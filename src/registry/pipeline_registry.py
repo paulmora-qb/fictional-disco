@@ -27,6 +27,6 @@ def register_pipelines() -> dict[str, Pipeline]:
         # Stock Predictions: ML Technique Pipelines
         "ml_technique_modeling": ml_technique_modeling(
             top_level_namespace="ml_technique_modeling",
-            variants=["NKE", "GS", "JNJ", "PFE", "JPM"],
+            variants=["NKE", "GS"],
         ),
     }
