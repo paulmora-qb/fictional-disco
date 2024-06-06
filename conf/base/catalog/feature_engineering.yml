@@ -1,28 +1,5 @@
-_csv: &csv
-  type: "${_datasets.csv}"
-
 # Features #########################################################################
 
-"high_minus_low":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.ftr}/stock_features/high_minus_low
-
-"close_minus_open":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.ftr}/stock_features/close_minus_open
-
-"price_aggregation":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.ftr}/stock_features/price_aggregation
-
-# Model Input #########################################################################
-
-"master_tables":
-  type: ${_datasets.partitioned}
-  path: ${_base_path}/${_folders.mip}/stock_features
-  dataset:
-    type: "${_datasets.csv}"
-    load_args:
-      index: True
-    save_args:
-      index: true
+"price_w_features":
+  type: "${_datasets.csv}"
+  filepath: ${_base_path}/${_folders.ftr}/stock_features/price_w_features

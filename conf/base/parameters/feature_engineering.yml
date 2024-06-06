@@ -1,13 +1,18 @@
-subtraction:
-  high_minus_low: high_minus_low
-  close_minus_open: close_minus_open
+arithmetic:
+  - new_column: "high_minus_low"
+    formula: "high - low"
+  - new_column: "close_minus_open"
+    formula: "close - open"
 
 aggregation:
   - aggregation_type: mean
     aggregation_lengths: [7, 14, 21]
+    aggregation_columns: ["adj_close"]
   - aggregation_type: std
     aggregation_lengths: [7]
+    aggregation_columns: ["adj_close"]
 
 master_table:
+  target_column: close
   date_column: ${_column_names.date_column}
   shift_period: 1

@@ -2,10 +2,10 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from feature_engineering.functions.preprocessing import (
-    create_auto_aggregation,
-    create_master_dict,
-    subtract_dataframes,
+from feature_engineering.functions import (
+    calculate_rolling_aggregations,
+    basic_arithmetic,
+    shift_features,
 )
 
 
@@ -24,48 +24,34 @@ def _create_feature_pipeline() -> Pipeline:
 
     """
     nodes = [
-        # node(
-        #     func=subtract_dataframes,
-        #     inputs={
-        #         "price_data": "price_data",
-        #         "subtraction_params": "params:subtraction",
-        #     },
-        #     outputs="",
-        #     name="subtraction_high_minus_low",
-        #     tags=["feature_engineering"],
-        # ),
         node(
-            func=subtract_dataframes,
+            func=basic_arithmetic,
             inputs={
-                "df1": "close",
-                "df2": "open",
-                "name": "params:subtraction.close_minus_open",
+                "price_data": "price_data",
+                "arithmetic_params": "params:arithmetic",
             },
-            outputs="close_minus_open",
-            name="subtraction_close_minus_open",
+            outputs="price_data_temp1",
+            name="price_data_temp1",
             tags=["feature_engineering"],
         ),
         node(
-            func=create_auto_aggregation,
+            func=calculate_rolling_aggregations,
             inputs={
-                "stock_prices": "adj_close",
+                "price_data": "price_data_temp1",
                 "aggregation_params": "params:aggregation",
             },
-            outputs="price_aggregation",
+            outputs="price_data_temp2",
             name="auto_aggregation",
             tags=["feature_engineering"],
         ),
         node(
-            func=create_master_dict,
-            inputs=[
-                "close",
-                "params:master_table",
-                "high_minus_low",
-                "close_minus_open",
-                "price_aggregation",
-            ],
-            outputs="master_tables",
-            name="create_master_table",
+            func=shift_features,
+            inputs={
+                "price_data": "price_data_temp2",
+                "shift_params": "params:shift",
+            },
+            outputs="price_data_final",
+            name="price_data_final",
             tags=["feature_engineering"],
         ),
     ]
