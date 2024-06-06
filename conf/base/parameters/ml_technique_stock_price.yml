@@ -1,8 +1,9 @@
 ml_technique_modeling:
   modeling_params:
+    date_column: ${_column_names.date_column}
     train_test_split:
       time_window: 1y
-      train_test_column: train_test
+      train_test_column: ${_column_names.train_test_column}
     setup_params:
       fold_strategy: timeseries
       data_split_shuffle: False
@@ -11,7 +12,8 @@ ml_technique_modeling:
       transform_target: True
       session_id: 123
       ignore_features:
-        - train_test
+        - ${_column_names.train_test_column}
+        - ${_column_names.date_column}
     train_params:
       sort: MAE
       exclude:
@@ -24,4 +26,4 @@ ml_technique_modeling:
 
   predictions:
     merge_cols:
-      - Date
+      - ${_column_names.date_column}

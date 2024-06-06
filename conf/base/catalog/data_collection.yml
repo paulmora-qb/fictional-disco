@@ -1,50 +1,9 @@
-_csv: &csv
-  type: "${_datasets.csv}"
-  save_args:
-    index: True
-
 # Dataset ##############################################################################
 
-sp500_data:
-  type: ${_datasets.csv}
-  filepath: ${_base_path}/${_folders.raw}/sp500.csv
+sp500_stock_ticker:
+  type: ${_datasets.pickle}
+  filepath: ${_base_path}/${_folders.raw}/list_stock_symbols.pkl
 
 price_data:
-  type: ${_datasets.partitioned}
-  path: ${_base_path}/${_folders.int}/
-  dataset:
-    type: "${_datasets.csv}"
-    load_args:
-      index: True
-    save_args:
-      index: true
-
-valid_stock_symbols:
-  type: ${_datasets.pickle}
-  filepath: ${_base_path}/${_folders.int}/valid_stock_symbols.pkl
-
-# Outputs ##############################################################################
-
-adj_close:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.int}/Adj Close
-
-close:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.int}/Close
-
-high:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.int}/High
-
-low:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.int}/Low
-
-open:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.int}/Open
-
-volume:
-  <<: *csv
-  filepath: ${_base_path}/${_folders.int}/Volume
+  type: ${_datasets.csv}
+  filepath: ${_base_path}/${_folders.int}/price_data.csv

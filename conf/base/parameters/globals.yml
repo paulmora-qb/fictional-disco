@@ -1,0 +1,5 @@
+# Global Parameters ####################################################################
+
+_column_names:
+  date_column: Date
+  train_test_column: train_test

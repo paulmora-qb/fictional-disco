@@ -67,13 +67,14 @@ def create_auto_aggregation(
 
 
 def _create_feature_shift(
-    feature_table: pd.DataFrame, shift_period: int
+    feature_table: pd.DataFrame, date_column: str, shift_period: int
 ) -> pd.DataFrame:
     """Shift the feature tables.
 
     Args:
     ----
         feature_table (pd.DataFrame): Tables that need to be shifted.
+        date_column (str): Name of the date column.
         shift_period (int): Number of periods to shift the tables.
 
     Returns:
@@ -81,12 +82,12 @@ def _create_feature_shift(
         pd.DataFrame: Shifted tables.
 
     """
-    feature_table_shift = feature_table.drop(columns=["Date"]).shift(shift_period)
+    feature_table_shift = feature_table.drop(columns=[date_column]).shift(shift_period)
     feature_table_shift.columns = [
-        f"{col}_shift_{shift_period}" if col != "Date" else col
+        f"{col}_shift_{shift_period}" if col != date_column else col
         for col in feature_table_shift.columns
     ]
-    feature_table_shift["Date"] = feature_table["Date"]
+    feature_table_shift[date_column] = feature_table[date_column]
     return feature_table
 
 
@@ -136,7 +137,9 @@ def _remove_missing_cell_rows(
 
 
 def create_master_dict(
-    closing_prices: pd.DataFrame, *feature_tables: list[pd.DataFrame]
+    closing_prices: pd.DataFrame,
+    master_table_params: dict[str, str],
+    *feature_tables: list[pd.DataFrame],
 ) -> pd.DataFrame:
     """Create the master table.
 
@@ -150,6 +153,8 @@ def create_master_dict(
     Args:
     ----
         closing_prices (pd.DataFrame): DataFrame with the closing prices.
+        master_table_params (dict[str, str]): Dictionary with the parameters for the
+            master table creation.
         *feature_tables (list[pd.DataFrame]): List of DataFrames with the features.
 
     Returns:
@@ -158,14 +163,21 @@ def create_master_dict(
 
     """
     # Create the shifted feature tables
-    shifted_feature_tables = [
-        _create_feature_shift(feature_table, 1) for feature_table in feature_tables
+    date_column = master_table_params["date_column"]
+    shift_period = master_table_params["shift_period"]
+    stock_tables = [
+        _create_feature_shift(
+            feature_table=feature_table,
+            date_column=date_column,
+            shift_period=shift_period,
+        )
+        for feature_table in feature_tables
     ]
+    stock_tables += [closing_prices]
     # Merge all the data frames
     merged_df = reduce(
-        lambda left, right: pd.merge(left, right, on="Date"), shifted_feature_tables
+        lambda left, right: pd.merge(left, right, on=date_column), stock_tables
     )
-
     # Create a dictionary with the common columns
     master_dict = _create_common_columns_dataframe(merged_df)
     # Remove rows with missing cells

@@ -3,7 +3,10 @@
 from kedro.pipeline import Pipeline, node, pipeline
 
 from feature_engineering.functions.preprocessing import (
-    create_auto_aggregation, create_master_dict, subtract_dataframes)
+    create_auto_aggregation,
+    create_master_dict,
+    subtract_dataframes,
+)
 
 
 def _create_feature_pipeline() -> Pipeline:
@@ -21,17 +24,16 @@ def _create_feature_pipeline() -> Pipeline:
 
     """
     nodes = [
-        node(
-            func=subtract_dataframes,
-            inputs={
-                "df1": "high",
-                "df2": "low",
-                "name": "params:subtraction.high_minus_low",
-            },
-            outputs="high_minus_low",
-            name="subtraction_high_minus_low",
-            tags=["feature_engineering"],
-        ),
+        # node(
+        #     func=subtract_dataframes,
+        #     inputs={
+        #         "price_data": "price_data",
+        #         "subtraction_params": "params:subtraction",
+        #     },
+        #     outputs="",
+        #     name="subtraction_high_minus_low",
+        #     tags=["feature_engineering"],
+        # ),
         node(
             func=subtract_dataframes,
             inputs={
@@ -57,6 +59,7 @@ def _create_feature_pipeline() -> Pipeline:
             func=create_master_dict,
             inputs=[
                 "close",
+                "params:master_table",
                 "high_minus_low",
                 "close_minus_open",
                 "price_aggregation",

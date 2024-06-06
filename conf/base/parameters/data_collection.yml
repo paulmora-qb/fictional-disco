@@ -1,9 +1,2 @@
 data_loader:
   period: 10y
-  relevant_columns:
-    - Open
-    - High
-    - Low
-    - Close
-    - Adj Close
-    - Volume

@@ -17,10 +17,10 @@ def create_data_collection_pipeline() -> Pipeline:
         node(
             func=data_collection,
             inputs={
-                "sp500_data": "sp500_data",
+                "sp500_stock_ticker": "sp500_stock_ticker",
                 "data_loader_params": "params:data_loader",
             },
-            outputs=["price_data", "valid_stock_symbols"],
+            outputs="price_data",
             name="data_collection",
             tags=["data_collection"],
         ),

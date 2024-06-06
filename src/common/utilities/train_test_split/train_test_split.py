@@ -24,10 +24,13 @@ def train_test_split(
             split.
 
     """
+    date_column = modeling_params["date_column"]
     train_test_params = modeling_params["train_test_split"]
     time_window = train_test_params["time_window"]
     train_test_column = train_test_params["train_test_column"]
-    stock_price_table.index = pd.to_datetime(stock_price_table.index)
+    stock_price_table.loc[:, date_column] = pd.to_datetime(
+        stock_price_table.loc[:, date_column]
+    )
 
     # Parse the time window to get the timedelta
     if time_window.endswith("y"):
@@ -46,7 +49,7 @@ def train_test_split(
         )
 
     # Find the latest date in the index
-    latest_date = stock_price_table.index.max()
+    latest_date = stock_price_table.loc[:, date_column].max()
 
     # Calculate the cutoff date for the test set
     cutoff_date = latest_date - timedelta

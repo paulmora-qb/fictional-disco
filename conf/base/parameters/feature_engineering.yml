@@ -7,3 +7,7 @@ aggregation:
     aggregation_lengths: [7, 14, 21]
   - aggregation_type: std
     aggregation_lengths: [7]
+
+master_table:
+  date_column: ${_column_names.date_column}
+  shift_period: 1
