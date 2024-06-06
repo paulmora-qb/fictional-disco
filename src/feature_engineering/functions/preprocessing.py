@@ -1,6 +1,7 @@
 """Functions for preprocessing the data."""
 
 import pandas as pd
+from functools import reduce
 
 
 def subtract_dataframes(
@@ -19,9 +20,18 @@ def subtract_dataframes(
         pd.DataFrame: DataFrame resulting from the subtraction of df2 from df1.
 
     """
-    subtraction_df = df1 - df2
-    subtraction_df.columns = [f"{col}_{name}" for col in subtraction_df.columns]
-    return subtraction_df
+    date_column = "Date"
+    merged_df = pd.merge(df1, df2, on=date_column, suffixes=("_df1", "_df2"))
+
+    # Subtract the columns from df2 from df1 and rename the columns
+    result_df = pd.DataFrame()
+    result_df[date_column] = merged_df[date_column]
+    for column in df1.columns:
+        if column != date_column:
+            result_df[f"{column}_{name}"] = (
+                merged_df[column + "_df1"] - merged_df[column + "_df2"]
+            )
+    return result_df
 
 
 def create_auto_aggregation(
@@ -39,19 +49,20 @@ def create_auto_aggregation(
         pd.DataFrame: DataFrame with the date and the aggregation columns
 
     """
-    agg_data = pd.DataFrame(index=stock_prices.index)
+    agg_data = pd.DataFrame()
     for agg in aggregation_params:
         for window in agg["aggregation_lengths"]:
             agg_type = agg["aggregation_type"]
-            agg_data_temp = stock_prices.rolling(window=window).agg(agg_type)
+            agg_data_temp = (
+                stock_prices.drop(columns=["Date"]).rolling(window=window).agg(agg_type)
+            )
             agg_data_temp = agg_data_temp.rename(
                 columns={
-                    col: f"{col}_{agg_type}_{window}"
-                    for col in agg_data_temp.columns
-                    if col != "Date"
+                    col: f"{col}_{agg_type}_{window}" for col in agg_data_temp.columns
                 },
             )
             agg_data = pd.concat([agg_data, agg_data_temp], axis=1)
+    agg_data["Date"] = stock_prices["Date"]
     return agg_data
 
 
@@ -70,10 +81,12 @@ def _create_feature_shift(
         pd.DataFrame: Shifted tables.
 
     """
-    feature_table = feature_table.shift(shift_period)
-    feature_table.columns = [
-        f"{col}_shift_{shift_period}" for col in feature_table.columns
+    feature_table_shift = feature_table.drop(columns=["Date"]).shift(shift_period)
+    feature_table_shift.columns = [
+        f"{col}_shift_{shift_period}" if col != "Date" else col
+        for col in feature_table_shift.columns
     ]
+    feature_table_shift["Date"] = feature_table["Date"]
     return feature_table
 
 
@@ -148,9 +161,12 @@ def create_master_dict(
     shifted_feature_tables = [
         _create_feature_shift(feature_table, 1) for feature_table in feature_tables
     ]
-    # Concatenate the closing prices and the shifted feature tables
-    master_table = pd.concat([closing_prices] + shifted_feature_tables, axis=1)
+    # Merge all the data frames
+    merged_df = reduce(
+        lambda left, right: pd.merge(left, right, on="Date"), shifted_feature_tables
+    )
+
     # Create a dictionary with the common columns
-    master_dict = _create_common_columns_dataframe(master_table)
+    master_dict = _create_common_columns_dataframe(merged_df)
     # Remove rows with missing cells
     return _remove_missing_cell_rows(master_dict)

@@ -2,8 +2,6 @@ _csv: &csv
   type: "${_datasets.csv}"
   save_args:
     index: True
-  load_args:
-    index_col: Date
 
 # Dataset ##############################################################################
 
