@@ -12,7 +12,5 @@ aggregation:
     aggregation_lengths: [7]
     aggregation_columns: ["adj_close"]
 
-master_table:
-  target_column: close
-  date_column: ${_column_names.date_column}
+shift:
   shift_period: 1

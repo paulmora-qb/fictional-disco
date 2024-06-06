@@ -1,1 +1,6 @@
-{"price_data": {"rows": 1080037, "columns": 8, "file_size": 122770986}}
+{
+  "price_data": { "rows": 1080037, "columns": 8, "file_size": 122770986 },
+  "price_data_temp1": { "rows": 1080037, "columns": 10 },
+  "price_data_temp2": { "rows": 1080037, "columns": 14 },
+  "price_data_final": { "rows": 1080037, "columns": 20 }
+}

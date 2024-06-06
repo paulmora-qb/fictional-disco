@@ -10,13 +10,15 @@ def data_collection(
     """Collect stock information for the S&P 500 stock tickers.
 
     Args:
+    ----
         sp500_stock_ticker (list[str]): List of S&P 500 stock tickers.
         data_loader_params (dict[str, str]): Parameters for the data loader.
 
     Returns:
+    -------
         pd.DataFrame: DataFrame with the stock information.
-    """
 
+    """
     return _download_all_stock_information(
         list_symbols=sp500_stock_ticker, data_loader_params=data_loader_params
     )
@@ -56,7 +58,9 @@ def _standardize_columns(df: pd.DataFrame) -> pd.DataFrame:
     """Standardize the column names of the DataFrame.
 
     Args:
+    ----
         df (pd.DataFrame): DataFrame to standardize.
+
     """
 
     def _standardize_column_name(col):

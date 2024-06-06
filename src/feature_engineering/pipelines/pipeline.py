@@ -2,11 +2,9 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from feature_engineering.functions import (
-    calculate_rolling_aggregations,
-    basic_arithmetic,
-    shift_features,
-)
+from feature_engineering.functions import (basic_arithmetic,
+                                           calculate_rolling_aggregations,
+                                           shift_features)
 
 
 def _create_feature_pipeline() -> Pipeline:

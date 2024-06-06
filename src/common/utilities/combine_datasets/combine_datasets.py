@@ -36,7 +36,6 @@ def merge_datasets(**kwargs) -> pd.DataFrame:
     dfs_list = []
     for key, df in kwargs.items():
         if key != "params":
-            df = df.reset_index()
             rem_cols = set(df.columns).difference(merge_keys)
             df.rename(columns={col: f"{key}_{col}" for col in rem_cols}, inplace=True)
             dfs_list.append(df)
