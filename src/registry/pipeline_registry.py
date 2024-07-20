@@ -2,12 +2,11 @@
 
 from kedro.pipeline import Pipeline
 
-from data_collection.pipelines import \
-    create_data_collection_pipeline as data_collection
-from feature_engineering.pipelines import \
-    create_pipeline as feature_engineering
-from ml_technique_stock_price.pipelines import \
-    create_modeling_pipeline as ml_technique_modeling
+from data_collection.pipelines import create_data_collection_pipeline as data_collection
+from feature_engineering.pipelines import create_pipeline as feature_engineering
+from ml_technique_stock_price.pipelines import (
+    create_modeling_pipeline as ml_technique_modeling,
+)
 
 
 def register_pipelines() -> dict[str, Pipeline]:
@@ -26,6 +25,5 @@ def register_pipelines() -> dict[str, Pipeline]:
         # Stock Predictions: ML Technique Pipelines
         "ml_technique_modeling": ml_technique_modeling(
             top_level_namespace="ml_technique_modeling",
-            variants=["NKE", "GS"],
         ),
     }

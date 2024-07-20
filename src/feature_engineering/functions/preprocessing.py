@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 import pandas as pd
+import numpy as np
 
 
 def basic_arithmetic(
@@ -103,6 +104,32 @@ def shift_features(
         .apply(apply_shifts, shift_params, feature_columns)
         .reset_index(drop=True)
     )
+
+
+def log_returns(
+    price_data: pd.DataFrame, log_return_params: dict[str, str]
+) -> pd.DataFrame:
+    """Calculate the log returns for the price data.
+
+    Args:
+        price_data (pd.DataFrame): Price DataFrame containing the stock prices.
+        log_return_params (dict[str, str]): Parameters for the log returns.
+
+    Returns:
+        pd.DataFrame: DataFrame with the log returns.
+    """
+
+    def log_return(series):
+        return np.log(series / series.shift(1))
+
+    columns = log_return_params["columns"]
+    for column in columns:
+        log_return_column = f"log_return_{column}"
+        price_data[log_return_column] = price_data.groupby("stock_ticker")[
+            column
+        ].transform(log_return)
+
+    return price_data
 
 
 def _filter_strings(lst_with_strings: list, pattern: str) -> list[str]:

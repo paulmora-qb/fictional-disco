@@ -2,9 +2,12 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from feature_engineering.functions import (basic_arithmetic,
-                                           calculate_rolling_aggregations,
-                                           shift_features)
+from feature_engineering.functions import (
+    basic_arithmetic,
+    calculate_rolling_aggregations,
+    shift_features,
+    log_returns,
+)
 
 
 def _create_feature_pipeline() -> Pipeline:
@@ -48,7 +51,17 @@ def _create_feature_pipeline() -> Pipeline:
                 "price_data": "price_data_temp2",
                 "shift_params": "params:shift",
             },
-            outputs="price_data_final",
+            outputs="price_data_temp3",
+            name="shift_features",
+            tags=["feature_engineering"],
+        ),
+        node(
+            func=log_returns,
+            inputs={
+                "price_data": "price_data_temp3",
+                "log_return_params": "params:log_returns",
+            },
+            outputs="price_w_features",
             name="price_data_final",
             tags=["feature_engineering"],
         ),

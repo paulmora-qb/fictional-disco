@@ -1,5 +1,6 @@
 # Global Parameters ####################################################################
 
 _column_names:
-  date_column: Date
+  date_column: date
   train_test_column: train_test
+  id_column: "stock_ticker"

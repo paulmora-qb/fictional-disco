@@ -1,28 +1,19 @@
 ml_technique_modeling:
   modeling_params:
-    date_column: ${_column_names.date_column}
-    train_test_split:
-      time_window: 1y
-      train_test_column: ${_column_names.train_test_column}
-    setup_params:
-      fold_strategy: timeseries
-      data_split_shuffle: False
-      fold: 3
-      transformation: True
-      transform_target: True
-      session_id: 123
-      ignore_features:
-        - ${_column_names.train_test_column}
-        - ${_column_names.date_column}
-    train_params:
-      sort: MAE
-      exclude:
-        - par # Has a problem with hyperparameter tuning
-    tuned_params:
-      n_iter: 10
-      search_library: optuna
-      choose_better: True
-      optimize: MAE
+    ts_dataframe:
+      timestamp_column: ${_column_names.date_column}
+      id_column: ${_column_names.id_column}
+    autogluon_init:
+      prediction_length: 5
+      target: "log_return_close"
+      eval_metric: "MASE"
+      freq: "B"
+    model_fit:
+      presets: "medium_quality"
+      time_limit: 60
+
+  stock_price_params:
+    cutoff_percentile: 0.05
 
   predictions:
     merge_cols:

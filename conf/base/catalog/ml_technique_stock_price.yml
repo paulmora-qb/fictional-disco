@@ -9,28 +9,12 @@ _csv: &csv
 
 # Model Output #########################################################################
 
-"{namespace}.{variant}.prediction_performance":
+"{namespace}.{variant}.portfolio":
   <<: *csv
-  filepath: ${_base_path}/${_folders.mop}/{namespace}/performance_data/{variant}
-
-"{namespace}.{variant}.predictions":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.mop}/{namespace}/predictions/{variant}
-
-# Post EDA #############################################################################
-
-"{namespace}.{variant}.line_plot":
-  type: "${_datasets.matplotlib}"
-  filepath: data/08_reporting/{namespace}/{variant}.png
-  save_args:
-    format: png
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/portfolio/{variant}
 
 # Combine ########################################################################
 
-"{namespace}.predictions_merged":
+"{namespace}.portfolio_concatenated":
   <<: *csv
-  filepath: ${_base_path}/${_folders.mop}/{namespace}/predictions_merged
-
-"{namespace}.performance_concatenated":
-  <<: *csv
-  filepath: ${_base_path}/${_folders.mop}/{namespace}/performance_concatenated
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/portfolio_concatenated

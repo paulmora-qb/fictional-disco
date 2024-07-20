@@ -14,3 +14,6 @@ aggregation:
 
 shift:
   shift_period: 1
+
+log_returns:
+  columns: [close]

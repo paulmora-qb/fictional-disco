@@ -2,4 +2,4 @@
 
 "price_w_features":
   type: "${_datasets.csv}"
-  filepath: ${_base_path}/${_folders.ftr}/stock_features/price_w_features
+  filepath: ${_base_path}/${_folders.ftr}/stock_features/price_w_features.csv
