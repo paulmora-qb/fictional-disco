@@ -66,4 +66,4 @@ def create_pipeline(top_level_namespace: str = "") -> Pipeline:
             tags=["backtesting"],
         ),
     ]
-    return pipeline(nodes, name=top_level_namespace)
+    return pipeline(nodes, namespace=top_level_namespace)

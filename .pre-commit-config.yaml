@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.9
+  python: python3.10
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -23,7 +23,6 @@ repos:
         entry: nbstripout ./src
         types: [jupyter]
         stages: [commit]
-        exclude: "(docs/source|src/packages/common_pipes/common_pycaret|src/packages/customerone_lib/customerone_lib-recommender)"
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.2.2"
