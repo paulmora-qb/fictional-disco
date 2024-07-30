@@ -2,11 +2,10 @@
 
 from kedro.pipeline import Pipeline, node, pipeline
 
+from common.backtesting.functions.evaluation import \
+    calculate_performance_metrics
 from common.backtesting.functions.returns import (
-    create_portfolio_returns,
-    adjust_returns_for_trading_costs,
-)
-from common.backtesting.functions.evaluation import calculate_performance_metrics
+    adjust_returns_for_trading_costs, create_portfolio_returns)
 from common.backtesting.functions.viz import plot_performance_metrics
 
 
@@ -67,4 +66,4 @@ def create_pipeline(top_level_namespace: str = "") -> Pipeline:
             tags=["backtesting"],
         ),
     ]
-    return pipeline(nodes)
+    return pipeline(nodes, name=top_level_namespace)

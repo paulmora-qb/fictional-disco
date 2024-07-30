@@ -1,9 +1,9 @@
 """Conftest"""
 
-import pytest
-import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
+import pandas as pd
+import pytest
 
 # Set Matplotlib to use a non-interactive backend
 matplotlib.use("Agg")

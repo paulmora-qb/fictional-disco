@@ -1,14 +1,11 @@
+import math
+
 import numpy as np
 import pandas as pd
-import math
+
 from common.backtesting.functions.evaluation import (
-    mean_return,
-    std_deviation,
-    cagr,
-    max_drawdown,
-    sharpe_ratio,
-    calculate_performance_metrics,
-)
+    cagr, calculate_performance_metrics, max_drawdown, mean_return,
+    sharpe_ratio, std_deviation)
 
 
 def test_mean_return(adjusted_portfolio_returns, evaluation_results):

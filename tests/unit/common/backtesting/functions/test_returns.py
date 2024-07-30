@@ -1,10 +1,9 @@
 """Test for the return functions."""
 
 import pandas as pd
+
 from common.backtesting.functions.returns import (
-    create_portfolio_returns,
-    adjust_returns_for_trading_costs,
-)
+    adjust_returns_for_trading_costs, create_portfolio_returns)
 
 
 def test_create_portfolio_returns(

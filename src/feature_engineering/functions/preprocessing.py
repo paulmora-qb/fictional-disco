@@ -3,8 +3,8 @@
 import re
 from typing import Any
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 def basic_arithmetic(
@@ -112,11 +112,14 @@ def log_returns(
     """Calculate the log returns for the price data.
 
     Args:
+    ----
         price_data (pd.DataFrame): Price DataFrame containing the stock prices.
         log_return_params (dict[str, str]): Parameters for the log returns.
 
     Returns:
+    -------
         pd.DataFrame: DataFrame with the log returns.
+
     """
 
     def log_return(series):

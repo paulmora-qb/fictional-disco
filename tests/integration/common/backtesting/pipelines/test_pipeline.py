@@ -1,10 +1,12 @@
 """Integration test for pipeline"""
 
-from common.backtesting.pipelines import create_pipeline
 import logging
+
+import pandas as pd
 from kedro.io import DataCatalog
 from kedro.runner import SequentialRunner
-import pandas as pd
+
+from common.backtesting.pipelines import create_pipeline
 
 
 def test_create_pipeline(

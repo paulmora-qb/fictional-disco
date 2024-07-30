@@ -1,34 +1,31 @@
 """Functions for visualization of backtesting results."""
 
-import pandas as pd
-import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-
-
-def create_performance_summary(
-    performance_metrics: pd.DataFrame,
-    performance_plot: pd.DataFrame,
-):
-    pass
+import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def plot_performance_metrics(
     portfolio_returns: pd.DataFrame,
-    plot_performance_params: list[str],
+    plot_performance_params: dict[str, str],
 ) -> plt.Figure:
     """Plot portfolio returns over time.
 
     Args:
+    ----
         portfolio_returns (pd.DataFrame): DataFrame containing the returns of the
             portfolio that should be plotted.
-        plotting_columns (list[str]): List of columns to plot.
+        plot_performance_params (dict[str, str]): List of columns to plot.
 
     Raises:
+    ------
         ValueError: If the column names in 'plotting_columns' are not in the
             'portfolio_returns' DataFrame.
 
     Returns:
+    -------
         plt.Figure: Figure object containing the plot.
+
     """
     plotting_columns = plot_performance_params["columns"]
     if not plotting_columns or not all(

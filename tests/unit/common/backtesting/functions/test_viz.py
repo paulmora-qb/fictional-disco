@@ -2,17 +2,7 @@
 
 import matplotlib.pyplot as plt
 
-from common.backtesting.functions.viz import (
-    create_performance_summary,
-    plot_performance_metrics,
-)
-
-
-def test_create_performance_summary(
-    evaluation_results: dict[str, float], figure: plt.Figure
-):
-    """Pytest for performance summary."""
-    pass
+from common.backtesting.functions.viz import plot_performance_metrics
 
 
 def test_plot_performance_metrics(return_df, params_plot_performance_params):

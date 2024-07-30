@@ -1,12 +1,12 @@
 """Pipeline for price prediction."""
 
-from kedro.pipeline import Pipeline, node, pipeline
-import pandas as pd
-
 from functools import partial
-from common.utilities.multi_variant.pipelines import (
-    create_experiment_predictions_variant_concat_pipeline,
-)
+
+import pandas as pd
+from kedro.pipeline import Pipeline, node, pipeline
+
+from common.utilities.multi_variant.pipelines import \
+    create_experiment_predictions_variant_concat_pipeline
 
 
 def filter_data(unfiltered_df: pd.DataFrame, cutoff_date: str) -> pd.DataFrame:
@@ -85,11 +85,14 @@ def stock_selection(
     """Select the stocks based on the predictions.
 
     Args:
+    ----
         predictions (pd.DataFrame): Predictions of the returns.
         stock_price_params (dict[str, str]): Parameters for the stock prices.
 
     Returns:
+    -------
         pd.DataFrame: The selected stocks.
+
     """
     cutoff_percentile = stock_price_params["cutoff_percentile"]
     log_return_sums = predictions.groupby("item_id")["mean"].sum()
@@ -117,6 +120,8 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
     ----------
     top_level_namespace : str
         The namespace for the pipeline.
+    variant : str
+        The variant for the pipeline.
 
     Returns
     -------
