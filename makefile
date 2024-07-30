@@ -6,9 +6,6 @@ check-all: check-all
 check-end-of-file-fixer: ## check consistent end of files
 	pre-commit run end-of-file-fixer --all-files
 
-check-gitleaks: ## check for commited secrets with gitleaks
-	pre-commit run gitleaks --all-files
-
 check-prettier: ## check prettier format of all files
 	pre-commit run prettier --all-files
 
