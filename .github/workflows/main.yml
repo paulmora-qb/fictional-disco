@@ -44,14 +44,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      - name: Cache pre-commit
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pre-commit-
+
       - name: Install dependencies
         run: |
           python -m venv .venv-checks
           source .venv-checks/bin/activate
           pip install -r requirements.txt
-
-      - name: Install make
-        run: sudo apt-get install -y make
+          pip install pre-commit
 
       - name: Run command
         env:
