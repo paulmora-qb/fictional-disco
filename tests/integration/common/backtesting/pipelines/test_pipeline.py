@@ -4,19 +4,32 @@ from common.backtesting.pipelines import create_pipeline
 import logging
 from kedro.io import DataCatalog
 from kedro.runner import SequentialRunner
+import pandas as pd
 
 
-def test_create_pipeline(caplog, dummy_data, dummy_parameters):
+def test_create_pipeline(
+    caplog,
+    price_data: pd.DataFrame,
+    signals: pd.DataFrame,
+    weights: pd.DataFrame,
+    params_trading_costs: dict[str, str],
+    params_performance_metrics: dict[str, str],
+    params_plot_performance_params: dict[str, str],
+):
     pipeline = (
         create_pipeline()
         .from_nodes("create_portfolio_returns")
-        .to_nodes("create_performance_summary")
+        .to_nodes("plot_performance_metrics")
     )
     catalog = DataCatalog()
     catalog.add_feed_dict(
         {
-            "model_input_table": dummy_data,
-            "params:model_options": dummy_parameters["model_options"],
+            "price_data": price_data,
+            "weights": weights,
+            "signals": signals,
+            "params:trading_costs": params_trading_costs,
+            "params:performance_metrics": params_performance_metrics,
+            "params:plot_performance_params": params_plot_performance_params,
         }
     )
 

@@ -40,3 +40,13 @@ def weights() -> pd.DataFrame:
 @pytest.fixture
 def params_trading_costs() -> dict[str, str]:
     return {"bp_trading_cost": 10}
+
+
+@pytest.fixture
+def params_performance_metrics() -> dict[str, str]:
+    return {"columns": "Adjusted Portfolio Returns"}
+
+
+@pytest.fixture
+def params_plot_performance_params() -> dict[str, str]:
+    return {"columns": ["Adjusted Portfolio Returns", "Portfolio Returns"]}
