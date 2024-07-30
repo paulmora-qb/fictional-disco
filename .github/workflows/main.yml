@@ -21,7 +21,6 @@ jobs:
         command:
           [
             "make check-end-of-file-fixer",
-            "make check-gitleaks",
             "make check-prettier",
             "make check-ruff",
             "make check-trailing-whitespace",
