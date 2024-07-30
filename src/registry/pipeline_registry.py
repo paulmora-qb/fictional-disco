@@ -1,13 +1,11 @@
 """Project pipelines."""
 
+from data_collection.pipelines import create_data_collection_pipeline as data_collection
+from feature_engineering.pipelines import create_pipeline as feature_engineering
 from kedro.pipeline import Pipeline
-
-from data_collection.pipelines import \
-    create_data_collection_pipeline as data_collection
-from feature_engineering.pipelines import \
-    create_pipeline as feature_engineering
-from ml_technique_stock_price.pipelines import \
-    create_modeling_pipeline as ml_technique_modeling
+from ml_technique_stock_price.pipelines import (
+    create_modeling_pipeline as ml_technique_modeling,
+)
 
 
 def register_pipelines() -> dict[str, Pipeline]:

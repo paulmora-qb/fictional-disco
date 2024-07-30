@@ -1,8 +1,7 @@
 """Pipeline for data collection."""
 
-from kedro.pipeline import Pipeline, node, pipeline
-
 from data_collection.functions import data_collection
+from kedro.pipeline import Pipeline, node, pipeline
 
 
 def create_data_collection_pipeline() -> Pipeline:

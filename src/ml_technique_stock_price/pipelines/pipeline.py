@@ -3,10 +3,10 @@
 from functools import partial
 
 import pandas as pd
+from common.utilities.multi_variant.pipelines import (
+    create_experiment_predictions_variant_concat_pipeline,
+)
 from kedro.pipeline import Pipeline, node, pipeline
-
-from common.utilities.multi_variant.pipelines import \
-    create_experiment_predictions_variant_concat_pipeline
 
 
 def filter_data(unfiltered_df: pd.DataFrame, cutoff_date: str) -> pd.DataFrame:

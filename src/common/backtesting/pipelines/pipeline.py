@@ -1,12 +1,12 @@
 """Pipeline for price prediction."""
 
-from kedro.pipeline import Pipeline, node, pipeline
-
-from common.backtesting.functions.evaluation import \
-    calculate_performance_metrics
+from common.backtesting.functions.evaluation import calculate_performance_metrics
 from common.backtesting.functions.returns import (
-    adjust_returns_for_trading_costs, create_portfolio_returns)
+    adjust_returns_for_trading_costs,
+    create_portfolio_returns,
+)
 from common.backtesting.functions.viz import plot_performance_metrics
+from kedro.pipeline import Pipeline, node, pipeline
 
 
 def create_pipeline(top_level_namespace: str = "") -> Pipeline:

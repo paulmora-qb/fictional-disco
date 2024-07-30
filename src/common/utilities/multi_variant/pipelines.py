@@ -1,9 +1,7 @@
 """Pipelines for multi variant output."""
 
+from common.utilities.combine_datasets import concatenate_datasets, merge_datasets
 from kedro.pipeline import Pipeline, node, pipeline
-
-from common.utilities.combine_datasets import (concatenate_datasets,
-                                               merge_datasets)
 
 
 def create_experiment_predictions_variant_concat_pipeline(
