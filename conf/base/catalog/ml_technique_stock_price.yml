@@ -15,6 +15,6 @@ _csv: &csv
 
 # Combine ########################################################################
 
-"{namespace}.portfolio_concatenated":
+"{namespace}.signals_concatenated":
   <<: *csv
-  filepath: ${_base_path}/${_folders.mop}/{namespace}/portfolio_concatenated
+  filepath: ${_base_path}/${_folders.mop}/{namespace}/signals_concatenated.csv

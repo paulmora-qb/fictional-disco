@@ -106,7 +106,7 @@ def stock_selection(
     predictions.loc[predictions["item_id"].isin(lowest_performer), "indicator"] = -1
 
     return pd.DataFrame(predictions).pivot_table(
-        index="date", columns="item_id", values="indicator", fill_value=0
+        index="timestamp", columns="item_id", values="indicator", fill_value=0
     )
 
 
@@ -158,8 +158,8 @@ def _create_modeling_pipeline(top_level_namespace: str, variant: str) -> Pipelin
                 "predictions": "predictions",
                 "stock_price_params": "params:stock_price_params",
             },
-            outputs="stock_selection",
-            name="stock_selection",
+            outputs="signals",
+            name="signal_creation",
             tags=["modeling"],
         ),
     ]
@@ -207,5 +207,5 @@ def create_modeling_pipeline(top_level_namespace: str) -> Pipeline:
     ) + create_experiment_predictions_variant_concat_pipeline(
         top_level_namespace=top_level_namespace,
         variants=variants,
-        experiment_name="portfolio",
+        experiment_name="signals",
     )
