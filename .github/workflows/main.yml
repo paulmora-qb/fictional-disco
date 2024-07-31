@@ -63,7 +63,7 @@ jobs:
         env:
           PYTHONPATH: src:${{ env.PYTHONPATH }}
         run: |
-          source .venv/bin/activate
+          source .venv-checks/bin/activate
           pytest tests/unit
 
   ##################################################################################################
@@ -88,5 +88,5 @@ jobs:
         env:
           PYTHONPATH: src:${{ env.PYTHONPATH }}
         run: |
-          source .venv/bin/activate
+          source .venv-checks/bin/activate
           pytest tests/integration
