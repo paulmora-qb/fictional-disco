@@ -31,37 +31,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python-env
         with:
           python-version: "3.10"
 
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Cache pre-commit
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pre-commit
-          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pre-commit-
-
-      - name: Install dependencies
-        run: |
-          python -m venv .venv-checks
-          source .venv-checks/bin/activate
-          pip install -r requirements.txt
-          pip install pre-commit
-
       - name: Run command
-        env:
-          PATH: .venv-checks/bin:${{ env.PATH }}
         run: |
           source .venv-checks/bin/activate
           ${{ matrix.command }}
@@ -79,30 +54,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python-env
         with:
           python-version: "3.10"
-
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r requirements.txt
 
       - name: Run unit tests
         env:
           PYTHONPATH: src:${{ env.PYTHONPATH }}
         run: |
-          source .venv/bin/activate
+          source .venv-checks/bin/activate
           pytest tests/unit
 
   ##################################################################################################
@@ -118,28 +79,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python-env
         with:
           python-version: "3.10"
-
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r requirements.txt
 
       - name: Run integration tests
         env:
           PYTHONPATH: src:${{ env.PYTHONPATH }}
         run: |
-          source .venv/bin/activate
+          source .venv-checks/bin/activate
           pytest tests/integration
