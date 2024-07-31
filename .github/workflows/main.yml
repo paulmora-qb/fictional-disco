@@ -21,6 +21,7 @@ jobs:
         command:
           [
             "make check-end-of-file-fixer",
+            "make check-gitleaks",
             "make check-prettier",
             "make check-ruff",
             "make check-trailing-whitespace",
@@ -31,38 +32,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        id: setup_python
+      - name: Setup Python Environment
+        uses: ./.github/actions/setup-python-env
         with:
-          python-version: "3.10"
-
-      - name: Cache Python dependencies
-        uses: actions/cache@v4
-        id: cache_deps
-        with:
-          path: |
-            .venv-checks
-            ~/.cache/pre-commit
-          key: ${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-requirements-${{ hashFiles('requirements.txt', '.pre-commit-config.yaml') }}
-
-      - name: Create virtual environment
-        if: ${{ steps.cache_deps.outputs.cache-hit != 'true' }}
-        run: |
-          python -m venv .venv-checks
-        shell: bash
-
-      - name: Install requirements
-        if: ${{ steps.cache_deps.outputs.cache-hit != 'true' }}
-        run: |
-          source .venv-checks/bin/activate
-          pip install -r requirements.txt -U
-          pre-commit install
-        shell: bash
+          python-version: 3.10
 
       - name: Run command
-        env:
-          PATH: .venv-checks/bin:${{ env.PATH }}
         run: |
           source .venv-checks/bin/activate
           ${{ matrix.command }}
