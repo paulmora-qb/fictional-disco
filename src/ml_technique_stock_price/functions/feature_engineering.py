@@ -1,4 +1,4 @@
-"""Functions for preprocessing the data."""
+"""Functions for feature engineering the data."""
 
 import re
 from typing import Any
